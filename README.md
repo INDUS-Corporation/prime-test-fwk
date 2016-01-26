@@ -24,7 +24,6 @@ This framework also provides interface with the databases with a very easy way. 
 * Support for UI Page screenshots: You can take screenshot in your testcase as and when it is required.
 * Custom properties support in config files i.e. AppConfig.properties, TestConfig.properties, user profiles etc. 
 * Modular, flexible & scalable design
-* Implementation of this framework tries to detect the problem as early as possible. Lets say you wanted to type big string in textbox and somehow the whole string is not typed (due to length restriction), this will fail the testcase that time. This kind of many scenarios it has implemented.
 
 # Code compilation
 	- use the following command to clean the build
