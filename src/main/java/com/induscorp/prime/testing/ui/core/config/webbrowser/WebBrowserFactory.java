@@ -18,6 +18,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
 import com.induscorp.prime.testing.ui.core.config.AppConfig;
@@ -59,7 +60,7 @@ public class WebBrowserFactory {
 		AppConfig appConfig = testConfigMgr.getAppConfig(appName);
 		WebBrowserType type = appConfig.getAppWebBrowser();
 		String loginURL = appConfig.getAppLaunchUrl();
-
+		
 		WebBrowser browser = appBrowserMap.get(appName + ":" + browserId);
 		try {
 			switch (type) {
@@ -87,7 +88,7 @@ public class WebBrowserFactory {
 					}
 
 					firefoxDriver = new FirefoxDriver(new FirefoxBinary(), firefoxProfile, dc);
-					
+
 					browser = new WebBrowser(browserId, appName, appConfig, testConfigMgr, this, firefoxDriver, type);
 
 					/*
@@ -97,11 +98,12 @@ public class WebBrowserFactory {
 					browser.getSeleniumWebDriver().manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
 					browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
-					//browser.getSeleniumWebDriver().manage().window().maximize();
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
-					browser.getSeleniumWebDriver().manage().window().setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(), 
-							new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
-					
+					browser.getSeleniumWebDriver().manage().window()
+							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+
 					browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
 				} else {
@@ -124,12 +126,13 @@ public class WebBrowserFactory {
 					browser = new WebBrowser(browserId, appName, appConfig, testConfigMgr, this, chromeDriver, type);
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
-					
-					//browser.getSeleniumWebDriver().manage().window().maximize();
+
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
-					browser.getSeleniumWebDriver().manage().window().setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(), 
-							new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
-					
+					browser.getSeleniumWebDriver().manage().window()
+							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+
 					browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
 				} else {
@@ -145,7 +148,7 @@ public class WebBrowserFactory {
 					ieCapabilities.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, loginURL);
 					ieCapabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, false);
 					ieCapabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
-					
+
 					InternetExplorerDriver ieDriver = null;
 					if (appConfig.isEnableWebBrowserExtension()) {
 						ieDriver = new InternetExplorerDriver(ieCapabilities);
@@ -156,22 +159,39 @@ public class WebBrowserFactory {
 					browser = new WebBrowser(browserId, appName, appConfig, testConfigMgr, this, ieDriver, type);
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
-					
-					//browser.getSeleniumWebDriver().manage().window().maximize();
+
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
-					browser.getSeleniumWebDriver().manage().window().setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(), 
-							new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
-					
-					//browser.getSeleniumWebDriver().navigate().to(loginURL);
+					browser.getSeleniumWebDriver().manage().window()
+							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+
+					// browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
 				} else {
 					browser.setNewInstance(false);
 				}
 
 				break;
+			case remoteWebDriverProvider:
+				if (browser == null) {
+					RemoteWebDriver webDriver = appConfig.getRemoteWebDriverProvider().createRemoteWebDriver();
+					browser = new WebBrowser(browserId, appName, appConfig, testConfigMgr, this, webDriver, type);
+					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
+					browser.getSeleniumWebDriver().manage().window()
+							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
+									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+
+					browser.getSeleniumWebDriver().navigate().to(loginURL);
+					appBrowserMap.put(appName + ":" + browserId, browser);
+				} else {
+					browser.setNewInstance(false);
+				}
+				break;
 			default:
 				throw new IllegalArgumentException("Web browser '" + type + "' is not supported.");
 			}
+
 		} catch (Exception ex) {
 			Assert.fail("Failed to initialize " + type.name() + " web browser. Going to exit... ", ex);
 			System.exit(1);

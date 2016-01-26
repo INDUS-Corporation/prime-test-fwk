@@ -15,13 +15,31 @@
  * version 3 along with PrimeTestFwk. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.induscorp.prime.testing.ui.core.config.webbrowser;
+package com.induscorp.prime.testing.ui.core.objects.logon;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public enum WebBrowserType {
-	firefox, chrome, internetExplorer, remoteWebDriverProvider
+public class DefaultLoginSuccessPageValidator extends LoginSuccessPageValidator {
+		
+	public DefaultLoginSuccessPageValidator() {
+		super(null, null);
+	}
+
+	@Override
+	protected void tryLogout(String activeUserProfileName) {
+		// Doing nothing		
+	}
+
+	@Override
+	protected void validateInfo(String activeUserProfileName) {
+		// Doing nothing
+	}
+
+	@Override
+	protected boolean checkLoginSuccessPageVisible(String activeUserProfileName) {		
+		return true;
+	}
 }

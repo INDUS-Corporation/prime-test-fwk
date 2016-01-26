@@ -17,22 +17,45 @@
  */
 package com.induscorp.prime.testing.ui.core.objects.logon;
 
+import java.awt.Rectangle;
+
 import org.sikuli.script.Region;
 import org.testng.Assert;
 
+import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.UIObject;
-import com.induscorp.prime.testing.ui.core.objects.UIObjectValidator;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public abstract class LoginSuccessPageValidator extends UIObjectValidator {
-
+public abstract class LoginSuccessPageValidator {
+	protected WebBrowser browser;
+	protected UIObject uiObject;
+	protected Region region;
+	
 	public LoginSuccessPageValidator(UIObject locator, Region region) {
-		super(null, locator, region);
+		this.uiObject = locator;
+		if (browser != null) {
+			this.region = (region == null) ? new Region(
+					new Rectangle(0, 0, new Double(browser.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
+							new Double(browser.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
+					: region;
+		}
+	}
+	
+	public UIObject getUIObject() {
+		return uiObject;
+	}
+
+	public UIObjectType geUIObjectType() {
+		return uiObject.getType();
+	}
+
+	public Region getRegion() {
+		return region;
 	}
 
 	public void validate(String activeUserProfileName) {
@@ -50,7 +73,9 @@ public abstract class LoginSuccessPageValidator extends UIObjectValidator {
 		return checkLoginSuccessPageVisible(activeUserProfileName);
 	}
 
-	public abstract void setInitParams(WebBrowser browser);
+	public void setInitParams(WebBrowser browser) {
+		this.browser = browser;
+	}
 
 	protected abstract void tryLogout(String activeUserProfileName);
 

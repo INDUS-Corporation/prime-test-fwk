@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import org.testng.Assert;
 
+import com.induscorp.prime.testing.ui.core.config.webbrowser.RemoteWebDriverProvider;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowserType;
 import com.induscorp.prime.testing.ui.core.utils.ScreenCaptureUtil;
 
@@ -39,6 +40,8 @@ public class AppConfig {
 	private String appLaunchUrl;
 	private String appLoginPageValidatorClass;
 	private String appLoginSuccessPageValidatorClass;
+	private String remoteWebDriverProviderClass;
+	private RemoteWebDriverProvider remoteWebDriverProvider;
 	private WebBrowserType appWebBrowser;
 	private boolean enableWebBrowserExtension;
 	private Dimension browserWindowSize;
@@ -85,21 +88,26 @@ public class AppConfig {
 			System.exit(1);
 		} else {
 			appLoginPageValidatorClass = appLoginPageValidatorClass.trim();
-			/*Class cls = Class.forName(propValue);
-			testConfigProfile.setLoginPageValidator((LoginPageValidator) cls
-					.newInstance());*/
+			/*
+			 * Class cls = Class.forName(propValue);
+			 * testConfigProfile.setLoginPageValidator((LoginPageValidator) cls
+			 * .newInstance());
+			 */
 		}
 
 		appLoginSuccessPageValidatorClass = properties.getProperty("APP_LOGIN_SUCCESS_PAGE_VALIDATOR_CLASS");
 		if (appLoginSuccessPageValidatorClass == null || "".equals(appLoginSuccessPageValidatorClass.trim())) {
-			Assert.fail("FATAL: Please specify APP_LOGIN_SUCCESS_PAGE_VALIDATOR_CLASS in AppConfig.properties. AppName: "
-					+ appName + ". Exiting ...");
+			Assert.fail(
+					"FATAL: Please specify APP_LOGIN_SUCCESS_PAGE_VALIDATOR_CLASS in AppConfig.properties. AppName: "
+							+ appName + ". Exiting ...");
 			System.exit(1);
 		} else {
 			appLoginSuccessPageValidatorClass = appLoginSuccessPageValidatorClass.trim();
-			/*Class cls = Class.forName(propValue);
-			testConfigProfile.setLoginPageValidator((LoginPageValidator) cls
-					.newInstance());*/
+			/*
+			 * Class cls = Class.forName(propValue);
+			 * testConfigProfile.setLoginPageValidator((LoginPageValidator) cls
+			 * .newInstance());
+			 */
 		}
 
 		propValue = properties.getProperty("APP_WEB_BROWSER");
@@ -186,18 +194,20 @@ public class AppConfig {
 
 		dbProfileConfigDir = properties.getProperty("DB_PROFILE_CONFIG_DIR");
 		if (dbProfileConfigDir == null || "".equals(dbProfileConfigDir.trim())) {
-			//Assert.fail("FATAL: Please specify DB_PROFILE_CONFIG_DIR in AppConfig.properties. AppName: " + appName
-			//		+ ". Exiting ...");
-			//System.exit(1);
+			// Assert.fail("FATAL: Please specify DB_PROFILE_CONFIG_DIR in
+			// AppConfig.properties. AppName: " + appName
+			// + ". Exiting ...");
+			// System.exit(1);
 		} else {
 			dbProfileConfigDir = dbProfileConfigDir.trim();
 		}
 
 		propValue = properties.getProperty("DB_PROFILE_NAMES");
 		if (propValue == null || "".equals(propValue.trim())) {
-			//Assert.fail("FATAL: Please specify DB_PROFILE_NAMES in AppConfig.properties. AppName: " + appName
-			//		+ ". Exiting ...");
-			//System.exit(1);
+			// Assert.fail("FATAL: Please specify DB_PROFILE_NAMES in
+			// AppConfig.properties. AppName: " + appName
+			// + ". Exiting ...");
+			// System.exit(1);
 		} else {
 			String[] arr = propValue.split(",");
 			String keyStr;
@@ -219,6 +229,20 @@ public class AppConfig {
 			keyStr = String.valueOf(key);
 			if (keyStr.startsWith("_")) {
 				additionalProps.put(keyStr, properties.getProperty(keyStr));
+			}
+		}
+
+		remoteWebDriverProviderClass = properties.getProperty("REMOTE_WEB_DRIVER_PROVIDER_CLASS");
+		if (remoteWebDriverProviderClass == null || "".equals(remoteWebDriverProviderClass.trim())) {
+			remoteWebDriverProviderClass = null;
+		} else {
+			remoteWebDriverProviderClass = remoteWebDriverProviderClass.trim();
+			try {
+				remoteWebDriverProvider = (RemoteWebDriverProvider) Class.forName(remoteWebDriverProviderClass).newInstance();
+				remoteWebDriverProvider.setAppConfig(this);
+			} catch (Exception ex) {
+				Assert.fail("Failed to instantiate remote web driver class '" + remoteWebDriverProviderClass
+						+ "' defined in application '" + appName + "'.", ex);
 			}
 		}
 	}
@@ -286,6 +310,14 @@ public class AppConfig {
 		return appLoginSuccessPageValidatorClass;
 	}
 
+	public String getRemoteWebDriverProviderClass() {
+		return remoteWebDriverProviderClass;
+	}
+	
+	public RemoteWebDriverProvider getRemoteWebDriverProvider() {
+		return remoteWebDriverProvider;
+	}
+
 	public WebBrowserType getAppWebBrowser() {
 		return appWebBrowser;
 	}
@@ -293,9 +325,9 @@ public class AppConfig {
 	public boolean isEnableWebBrowserExtension() {
 		return enableWebBrowserExtension;
 	}
-	
+
 	public Dimension getBrowserWindowSize() {
-		return browserWindowSize;				
+		return browserWindowSize;
 	}
 
 	public String getUserProfileConfigDir() {
