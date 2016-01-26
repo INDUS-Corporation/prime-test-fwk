@@ -12,17 +12,15 @@
 		<selenium.version>2.49.1</selenium.version>		
 		<cucumber.version>1.2.4</cucumber.version>
 		<sikulix.version>1.1.0</sikulix.version>
-		<cucumber.reporting.version>1.2.0</cucumber.reporting.version>
-		<totallylazy.version>2.99</totallylazy.version>
 		<slf4j.version>1.7.7</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<hibernate.version>5.0.7.Final</hibernate.version>
+		<xmlapi.version>1.4.01</xmlapi.version>
 		<mysql.connector.version>5.1.38</mysql.connector.version>
 		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-surefire-plugin.version>2.10</maven-surefire-plugin.version>
-		<maven.cucumber.reporting.version>0.1.0</maven.cucumber.reporting.version>
 		<maven.resources.plugin.version>2.6</maven.resources.plugin.version>
 	</properties>
 
@@ -49,15 +47,7 @@
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>sonatype-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>repo.bodar.com</id>
-			<url>http://repo.bodar.com</url>
-		</repository>
+		</repository>			
 	</repositories>
 
 	<dependencies>
@@ -69,7 +59,7 @@
 		<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
+			<version>${xmlapi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -125,27 +115,12 @@
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-java</artifactId>
 			<version>${cucumber.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-testng</artifactId>
-			<version>${cucumber.version}</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>com.sikulix</groupId>
 			<artifactId>sikulixapi</artifactId>
 			<version>${sikulix.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.masterthought</groupId>
-			<artifactId>cucumber-reporting</artifactId>
-			<version>${cucumber.reporting.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.totallylazy</groupId>
-			<artifactId>totallylazy</artifactId>
-			<version>${totallylazy.version}</version>
-		</dependency>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -176,37 +151,6 @@
 						<target>${maven.compiler.target}</target>
 						<compilerArgument>-XDignore.symbol.file=true</compilerArgument>
 					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>net.masterthought</groupId>
-					<artifactId>maven-cucumber-reporting</artifactId>
-					<version>${maven.cucumber.reporting.version}</version>
-					<dependencies>
-						<dependency>
-							<groupId>com.googlecode.totallylazy</groupId>
-							<artifactId>totallylazy</artifactId>
-							<version>${totallylazy.version}</version>
-						</dependency>
-					</dependencies>
-					<configuration>
-						<projectName>prime-test-fwk</projectName>
-						<enableFlashCharts>true</enableFlashCharts>
-						<outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
-						<cucumberOutput>${project.build.directory}/cucumber-reports/json</cucumberOutput>
-						<skippedFails>true</skippedFails>
-						<missingFails>true</missingFails>
-						<pendingFails>true</pendingFails>
-						<undefinedFails>true</undefinedFails>
-					</configuration>
-					<executions>
-						<execution>
-							<phase>verify</phase>
-							<goals>
-								<goal>generate</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

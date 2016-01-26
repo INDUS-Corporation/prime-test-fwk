@@ -23,11 +23,10 @@ import java.util.List;
 
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
+import org.testng.Assert;
 
 import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
-
-import junit.framework.Assert;
 
 /**
  * 
