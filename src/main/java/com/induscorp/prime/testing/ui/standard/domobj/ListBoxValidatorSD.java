@@ -249,7 +249,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 
 		String optionTextValue;
 		List<String> foundItemList = new LinkedList<String>();
-		int itemNum = 1;		
+		//int itemNum = 1;		
 		for (WebElement option : options) {
 			optionTextValue = option.getText();
 			if (optionTextValue != null && itemsToBeSelected.getItems().contains(optionTextValue.trim())) {
@@ -268,7 +268,7 @@ public class ListBoxValidatorSD extends ListBoxValidator {
 					//}
 					throw th;
 				}
-				itemNum++;
+				//itemNum++;
 			}
 		}
 
