@@ -16,7 +16,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<hibernate.version>5.0.7.Final</hibernate.version>
 		<xmlapi.version>1.4.01</xmlapi.version>
-		<mysql.connector.version>5.1.38</mysql.connector.version>
+		<!-- <mysql.connector.version>5.1.38</mysql.connector.version> -->
 		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -106,14 +106,14 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-java</artifactId>
+			<artifactId>cucumber-core</artifactId>
 			<version>${cucumber.version}</version>
 		</dependency>		
 		<dependency>
