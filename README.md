@@ -35,3 +35,6 @@ This framework also provides interface with the databases with a very easy way. 
 
 # Documentation & More Details
 Please refer wiki pages for more details about this framework.
+
+# License
+LGPLv3 - GNU LESSER GENERAL PUBLIC LICENSE, Version 3 
