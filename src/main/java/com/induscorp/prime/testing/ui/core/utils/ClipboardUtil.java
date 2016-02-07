@@ -15,13 +15,26 @@
  * version 3 along with PrimeTestFwk. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.induscorp.prime.testing.ui.core.objects;
+package com.induscorp.prime.testing.ui.core.utils;
+
+import org.sikuli.script.App;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public enum ObjectLocationType {
-	WITHIN_CUSTOM_LIMIT, WITHIN_SCREEN_LIMIT, RELATIVE_TO_REF_OBJ
+public class ClipboardUtil {
+
+	public static String getContents() {
+		return App.getClipboard();
+	}
+
+	public static void clearContents() {
+		App.setClipboard("");
+	}
+
+	public static void setContents(String contents) {
+		App.setClipboard(contents);
+	}
 }

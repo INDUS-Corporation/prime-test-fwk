@@ -47,6 +47,7 @@ public class TestConfigManager {
 	private String cucumberTestcasesDir;
 	private String appScreenCaptureDir;
 	private String seleniumConfigDir;
+	private String sikuliConfigDir;
 
 	// Key: App-Name, Value AppConfig
 	private Map<String, AppConfig> appConfigs;
@@ -56,12 +57,15 @@ public class TestConfigManager {
 	private FirefoxDriverConfig firefoxDriverConfig;
 	private ChromeDriverConfig chromeDriverConfig;
 	private IEDriverConfig ieDriverConfig;
+	
+	private SikuliSettings sikuliSettings;
 
 	private TestConfigManager() {
 		init();
 		initFirefoxDriverConfig();
 		initChromeDriverConfig();
 		initIEDriverConfig();
+		initSikuliSettings();
 	}
 
 	public static TestConfigManager getInstance() {
@@ -150,6 +154,15 @@ public class TestConfigManager {
 				seleniumConfigDir = properties.getProperty("SELENIUM_CONFIG_DIR");
 				if (seleniumConfigDir == null || "".equals(seleniumConfigDir.trim())) {
 					seleniumConfigDir = Locations.getConfigDirPath() + "/selenium-config";
+				}
+
+			}
+			
+			sikuliConfigDir = System.getProperty("SIKULI_CONFIG_DIR");
+			if (sikuliConfigDir == null || "".equals(sikuliConfigDir.trim())) {
+				sikuliConfigDir = properties.getProperty("SIKULI_CONFIG_DIR");
+				if (sikuliConfigDir == null || "".equals(sikuliConfigDir.trim())) {
+					sikuliConfigDir = Locations.getConfigDirPath() + "/sikuli-config";
 				}
 
 			}
@@ -291,6 +304,23 @@ public class TestConfigManager {
 			Assert.fail("Failed to read property file - " + ieDriverCfgFile + ". Going to exit...", ex);
 			System.exit(1);
 		}
+	}
+	
+	private void initSikuliSettings() {
+		String sikuliSettingsFile = sikuliConfigDir + File.separator + "SikuliSettings.properties";
+		try (FileReader fileReader = new FileReader(sikuliSettingsFile)) {
+			Properties properties = new Properties();
+			properties.load(fileReader);
+
+			sikuliSettings = new SikuliSettings(sikuliConfigDir, properties);
+		} catch (Exception ex) {
+			Assert.fail("Failed to read property file - " + sikuliSettingsFile + ". Going to exit...", ex);
+			System.exit(1);
+		}
+	}
+	
+	public SikuliSettings getSikuliSettings() {
+		return sikuliSettings;
 	}
 
 	public IEDriverConfig getIEDriverConfig() {

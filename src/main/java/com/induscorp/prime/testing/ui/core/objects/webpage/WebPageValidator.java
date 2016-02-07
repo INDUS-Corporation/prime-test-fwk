@@ -27,6 +27,7 @@ import org.testng.Reporter;
 import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.events.InputEvent;
+import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
 import com.induscorp.prime.testing.ui.core.objects.UIObject;
 import com.induscorp.prime.testing.ui.core.objects.UIObjectValidator;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
@@ -221,7 +222,7 @@ public class WebPageValidator extends UIObjectValidator {
 	}
 
 	@Override
-	public void typeText(String text, int numRetries) {
+	public void typeText(String text, NewTextLocation location, int numRetries) {
 		Assert.fail("Web page typeText not supported.");
 	}
 

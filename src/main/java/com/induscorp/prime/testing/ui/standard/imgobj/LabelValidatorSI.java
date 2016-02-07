@@ -31,7 +31,7 @@ import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ImageObject;
 import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.ButtonValidator;
+import com.induscorp.prime.testing.ui.core.objects.label.LabelValidator;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
 import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextValidationMechanism;
 
@@ -40,30 +40,23 @@ import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextVali
  * @author Madhav Krishna
  *
  */
-public class ButtonValidatorSI extends ButtonValidator {
-	protected ButtonSI buttonObj;
+public class LabelValidatorSI extends LabelValidator {
+	protected LabelSI labelObj;
 
-	public ButtonValidatorSI(WebBrowser browser, ButtonSI uiObject, Region region) {
+	public LabelValidatorSI(WebBrowser browser, LabelSI uiObject, Region region) {
 		super(browser, uiObject, region);
-		this.buttonObj = uiObject;		
+		this.labelObj = uiObject;
 	}
 
 	@Override
-	public void validateName(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
-		Match match = findElement(numRetries);				
+	public void validateValue(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
+		Match match = findElement(numRetries);
 		validateTextValue(match.text(), expectedName, validationMechanism);
 	}
 
 	@Override
-	@Deprecated
-	public void validateDisabled(int numRetries) {
-		Assert.fail("validateDisabled() API is not supported by ButtonSI.");
-	}
-
-	@Override
-	@Deprecated
-	public void validateEnabled(int numRetries) {
-		Assert.fail("validateEnabled() API is not supported by ButtonSI.");
+	public String getValue(int numRetries) {
+		return findElement(numRetries).text();
 	}
 
 	@Override
@@ -83,16 +76,16 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void click(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -102,16 +95,16 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void doubleClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -121,16 +114,16 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void rightClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -140,7 +133,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -150,7 +143,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -161,7 +154,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyDown on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyDown on Label '" + labelObj.getDisplayName() + "'.", th);
 		}
 
 	}
@@ -173,7 +166,9 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail(
+					"Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '" + labelObj.getDisplayName() + "'.",
+					th);
 		}
 	}
 
@@ -185,19 +180,20 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Label '"
+					+ labelObj.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	@Deprecated
 	public void typeText(String text, NewTextLocation location, int numRetries) {
-		Assert.fail("typeText() API is not supported for Button element."); 
+		Assert.fail("typeText() API is not supported for Label element.");
 
 	}
 
 	@Override
-	public ButtonValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
+	public LabelValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -207,14 +203,14 @@ public class ButtonValidatorSI extends ButtonValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = buttonObj.getButtonImageLocation().getRegionOfImageObject(browser,
-						buttonObj.getButtonImage());
-				Assert.assertNotNull(region, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
+				Region region = labelObj.getLabelImageLocation().getRegionOfImageObject(browser,
+						labelObj.getLabelImage());
+				Assert.assertNotNull(region, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
-					Assert.fail("Unable to find Button '" + buttonObj.getDisplayName() + "'. Reason timeout(waited for "
+					Assert.fail("Unable to find Label '" + labelObj.getDisplayName() + "'. Reason timeout(waited for "
 							+ (numRetries * 2) + " seconds).", th);
 					break;
 				}
@@ -237,30 +233,30 @@ public class ButtonValidatorSI extends ButtonValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = buttonObj.getButtonImageLocation().getRegion(browser);
+		Region r = labelObj.getLabelImageLocation().getRegion(browser);
 
-		return new ImageObject(UIObjectType.button, buttonObj.getDisplayName(), buttonObj.getButtonImage())
+		return new ImageObject(UIObjectType.label, labelObj.getDisplayName(), labelObj.getLabelImage())
 				.getValidator(browser, r).findElements(numRetries);
 	}
-	
+
 	public void dragAndDrop(ImageObject target, Region targetRegion, int numRetries) {
 		try {
 			Match sourceElem = findElement(numRetries);
 			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
 
-			Assert.assertNotNull(sourceElem, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
+			Assert.assertNotNull(sourceElem, "Failed to find Label '" + labelObj.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
-			
+
 			sourceElem.drag(targetElem);
 			sourceElem.dropAt(targetElem);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform dragAndDrop from source '" + buttonObj.getDisplayName() + "' to target '"
+			Assert.fail("Failed to perform dragAndDrop from source '" + labelObj.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
-		switch(imageSection) {
+		switch (imageSection) {
 		case topLeft:
 			return imageMatch.getTopLeft();
 		case topRight:

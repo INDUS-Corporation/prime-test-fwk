@@ -23,44 +23,44 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.commons.LocatorType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ObjectLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.Button;
+import com.induscorp.prime.testing.ui.core.objects.label.Label;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class ButtonSI extends Button {
-	protected String buttonImg;
-	protected ObjectLocation buttonImgLocation;
+public class LabelSI extends Label {
+	protected String labelImg;
+	protected ObjectLocation labelImgLocation;
 
-	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
+	public LabelSI(String displayName, String labelImg, ObjectLocation labelImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.buttonImg = buttonImg;
-		this.buttonImgLocation = buttonImgLocation;
-	}
-	
-	public String getButtonImage() {
-		return buttonImg;
+		this.labelImg = labelImg;
+		this.labelImgLocation = labelImgLocation;
 	}
 
-	public ObjectLocation getButtonImageLocation() {
-		return buttonImgLocation;
+	public String getLabelImage() {
+		return labelImg;
 	}
 
-	@Override
-	public ButtonValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new ButtonValidatorSI(browser, this, region);
+	public ObjectLocation getLabelImageLocation() {
+		return labelImgLocation;
 	}
 
 	@Override
-	public ButtonSI clone() {
+	public LabelValidatorSI getValidator(WebBrowser browser, Region region) {
+		return new LabelValidatorSI(browser, this, region);
+	}
+
+	@Override
+	public LabelSI clone() {
 		return null;
 	}
 
 	@Override
-	public ButtonSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public LabelSI updateLocatorParameterWithValue(String paramName, String value) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

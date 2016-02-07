@@ -27,6 +27,7 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.DOMObject;
 import com.induscorp.prime.testing.ui.core.objects.DOMObjectValidator;
+import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
 import com.induscorp.prime.testing.ui.core.objects.button.ButtonValidator;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
 import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextValidationMechanism;
@@ -59,8 +60,8 @@ public class ButtonValidatorSD extends ButtonValidator {
 	}
 
 	@Override
-	public void typeText(String textToType, int numRetries) {
-		domObjValidator.typeText(textToType, numRetries);
+	public void typeText(String textToType, NewTextLocation location, int numRetries) {
+		domObjValidator.typeText(textToType, location, numRetries);
 	}
 
 	@Override

@@ -23,44 +23,44 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.commons.LocatorType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ObjectLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.Button;
+import com.induscorp.prime.testing.ui.core.objects.link.Hyperlink;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class ButtonSI extends Button {
-	protected String buttonImg;
-	protected ObjectLocation buttonImgLocation;
+public class HyperlinkSI extends Hyperlink {
+	protected String hyperlinkImg;
+	protected ObjectLocation hyperlinkImgLocation;
 
-	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
+	public HyperlinkSI(String displayName, String hyperlinkImg, ObjectLocation hyperlinkImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.buttonImg = buttonImg;
-		this.buttonImgLocation = buttonImgLocation;
-	}
-	
-	public String getButtonImage() {
-		return buttonImg;
+		this.hyperlinkImg = hyperlinkImg;
+		this.hyperlinkImgLocation = hyperlinkImgLocation;
 	}
 
-	public ObjectLocation getButtonImageLocation() {
-		return buttonImgLocation;
+	public String getHyperlinkImage() {
+		return hyperlinkImg;
 	}
 
-	@Override
-	public ButtonValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new ButtonValidatorSI(browser, this, region);
+	public ObjectLocation getHyperlinkImageLocation() {
+		return hyperlinkImgLocation;
 	}
 
 	@Override
-	public ButtonSI clone() {
+	public HyperlinkValidatorSI getValidator(WebBrowser browser, Region region) {
+		return new HyperlinkValidatorSI(browser, this, region);
+	}
+
+	@Override
+	public HyperlinkSI clone() {
 		return null;
 	}
 
 	@Override
-	public ButtonSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public HyperlinkSI updateLocatorParameterWithValue(String paramName, String value) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

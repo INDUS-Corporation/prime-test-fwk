@@ -31,39 +31,20 @@ import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ImageObject;
 import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.ButtonValidator;
+import com.induscorp.prime.testing.ui.core.objects.checkbox.CheckBoxValidator;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
-import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextValidationMechanism;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class ButtonValidatorSI extends ButtonValidator {
-	protected ButtonSI buttonObj;
+public class CheckBoxValidatorSI extends CheckBoxValidator {
+	protected CheckBoxSI cbObject;
 
-	public ButtonValidatorSI(WebBrowser browser, ButtonSI uiObject, Region region) {
+	public CheckBoxValidatorSI(WebBrowser browser, CheckBoxSI uiObject, Region region) {
 		super(browser, uiObject, region);
-		this.buttonObj = uiObject;		
-	}
-
-	@Override
-	public void validateName(String expectedName, TextValidationMechanism validationMechanism, int numRetries) {
-		Match match = findElement(numRetries);				
-		validateTextValue(match.text(), expectedName, validationMechanism);
-	}
-
-	@Override
-	@Deprecated
-	public void validateDisabled(int numRetries) {
-		Assert.fail("validateDisabled() API is not supported by ButtonSI.");
-	}
-
-	@Override
-	@Deprecated
-	public void validateEnabled(int numRetries) {
-		Assert.fail("validateEnabled() API is not supported by ButtonSI.");
+		this.cbObject = uiObject;		
 	}
 
 	@Override
@@ -83,7 +64,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 	
@@ -92,7 +73,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).click();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -102,7 +83,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 	
@@ -111,7 +92,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).doubleClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse double click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse double click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -121,7 +102,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 	
@@ -130,7 +111,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			getImageSection(match, imageSection).rightClick();
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse right click on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse right click on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -140,7 +121,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -150,7 +131,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match match = findElement(numRetries);
 			match.mouseDown(Button.LEFT);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform mouse clickAndHold on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform mouse clickAndHold on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -161,7 +142,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.click();
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyDown on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyDown on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 
 	}
@@ -173,7 +154,7 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.click();
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -185,19 +166,19 @@ public class ButtonValidatorSI extends ButtonValidator {
 			match.keyDown(seleniumToSikuliKeyConverter(keys));
 			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on Button '" + buttonObj.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on CheckBox '" + cbObject.getDisplayName() + "'.", th);
 		}
 	}
 
 	@Override
 	@Deprecated
 	public void typeText(String text, NewTextLocation location, int numRetries) {
-		Assert.fail("typeText() API is not supported for Button element."); 
+		Assert.fail("typeText() API is not supported for CheckBox element."); 
 
 	}
 
 	@Override
-	public ButtonValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
+	public CheckBoxValidatorSI scrollElementOnViewport(Scrollbar scrollbar) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -207,14 +188,14 @@ public class ButtonValidatorSI extends ButtonValidator {
 		Match match = null;
 		for (int i = 0; i <= numRetries; i++) {
 			try {
-				Region region = buttonObj.getButtonImageLocation().getRegionOfImageObject(browser,
-						buttonObj.getButtonImage());
-				Assert.assertNotNull(region, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
+				Region region = cbObject.getCheckBoxImageLocation().getRegionOfImageObject(browser,
+						cbObject.getCheckBoxImage());
+				Assert.assertNotNull(region, "Failed to find CheckBox '" + cbObject.getDisplayName() + "'.");
 				match = new Match(region, 1);
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
-					Assert.fail("Unable to find Button '" + buttonObj.getDisplayName() + "'. Reason timeout(waited for "
+					Assert.fail("Unable to find CheckBox '" + cbObject.getDisplayName() + "'. Reason timeout(waited for "
 							+ (numRetries * 2) + " seconds).", th);
 					break;
 				}
@@ -237,9 +218,9 @@ public class ButtonValidatorSI extends ButtonValidator {
 
 	@Override
 	public List<Match> findElements(int numRetries) {
-		Region r = buttonObj.getButtonImageLocation().getRegion(browser);
+		Region r = cbObject.getCheckBoxImageLocation().getRegion(browser);
 
-		return new ImageObject(UIObjectType.button, buttonObj.getDisplayName(), buttonObj.getButtonImage())
+		return new ImageObject(UIObjectType.checkBox, cbObject.getDisplayName(), cbObject.getCheckBoxImage())
 				.getValidator(browser, r).findElements(numRetries);
 	}
 	
@@ -248,13 +229,13 @@ public class ButtonValidatorSI extends ButtonValidator {
 			Match sourceElem = findElement(numRetries);
 			Match targetElem = target.getValidator(browser, targetRegion).findElement(numRetries);
 
-			Assert.assertNotNull(sourceElem, "Failed to find Button '" + buttonObj.getDisplayName() + "'.");
+			Assert.assertNotNull(sourceElem, "Failed to find CheckBox '" + cbObject.getDisplayName() + "'.");
 			Assert.assertNotNull(targetElem, "Failed to find element '" + target.getDisplayName() + "'.");
 			
 			sourceElem.drag(targetElem);
 			sourceElem.dropAt(targetElem);
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform dragAndDrop from source '" + buttonObj.getDisplayName() + "' to target '"
+			Assert.fail("Failed to perform dragAndDrop from source '" + cbObject.getDisplayName() + "' to target '"
 					+ target.getDisplayName() + "'.", th);
 		}
 	}
@@ -273,6 +254,37 @@ public class ButtonValidatorSI extends ButtonValidator {
 			return imageMatch.checkMatch();
 		}
 		return null;
+	}
+
+	@Override
+	@Deprecated
+	public boolean isCheckBoxChecked(int numRetries) {
+		Assert.fail("isCheckBoxChecked() is not supported for image components.");
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	public void validateCheckBoxChecked(int numRetries) {
+		Assert.fail("validateCheckBoxChecked() is not supported for CheckBox component.");
+	}
+
+	@Override
+	@Deprecated
+	public void validateCheckBoxUnchecked(int numRetries) {
+		Assert.fail("validateCheckBoxUnchecked() is not supported for CheckBox component.");
+	}
+
+	@Override
+	@Deprecated
+	public void checkAndValidateChecked(int numRetries) {
+		Assert.fail("checkAndValidateChecked() is not supported for CheckBox component.");
+	}
+
+	@Override
+	@Deprecated
+	public void uncheckAndValidateUnchecked(int numRetries) {
+		Assert.fail("uncheckAndValidateUnchecked() is not supported for CheckBox component.");
 	}
 
 }

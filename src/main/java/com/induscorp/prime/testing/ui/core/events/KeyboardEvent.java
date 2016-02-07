@@ -19,6 +19,8 @@ package com.induscorp.prime.testing.ui.core.events;
 
 import org.openqa.selenium.Keys;
 
+import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
+
 /**
  * 
  * @author Madhav Krishna
@@ -27,12 +29,14 @@ import org.openqa.selenium.Keys;
 public class KeyboardEvent extends InputEvent<KeyboardEventName> {
 	protected Keys key;
 	protected String inputTextBeforeKeyAction;
+	protected NewTextLocation textLocation;
 	
-	public KeyboardEvent(KeyboardEventName name, Keys key, String inputTextBeforeKeyAction) {
+	public KeyboardEvent(KeyboardEventName name, Keys key, String inputTextBeforeKeyAction, NewTextLocation textLocation) {
 		this.type = InputEventType.keyBoard;
 		this.name = name;
 		this.key = key;
 		this.inputTextBeforeKeyAction = inputTextBeforeKeyAction;
+		this.textLocation = textLocation;
 	}
 	
 	/**	
@@ -47,5 +51,13 @@ public class KeyboardEvent extends InputEvent<KeyboardEventName> {
 	 */
 	public String getInputText() {
 		return inputTextBeforeKeyAction;
+	}
+	
+	/**
+	 * Location where to type the text.
+	 * @return
+	 */
+	public NewTextLocation getTextLocation() {
+		return textLocation;
 	}
 }

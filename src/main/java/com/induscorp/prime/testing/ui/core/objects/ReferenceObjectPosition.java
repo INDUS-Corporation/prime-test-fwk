@@ -23,16 +23,5 @@ package com.induscorp.prime.testing.ui.core.objects;
  *
  */
 public enum ReferenceObjectPosition {
-	RIGHT_BOTTOM, 
-	RIGHT_MIDDLE, 
-	RIGHT_TOP, 
-	LEFT_TOP, 
-	LEFT_MIDDLE, 
-	LEFT_BOTTOM, 
-	TOP_LEFT, 
-	TOP_MIDDLE, 
-	TOP_RIGHT, 
-	BOTTOM_LEFT, 
-	BOTTOM_MIDDLE, 
-	BOTTOM_RIGHT
+	LEFT, TOP, RIGHT, BOTTOM
 }

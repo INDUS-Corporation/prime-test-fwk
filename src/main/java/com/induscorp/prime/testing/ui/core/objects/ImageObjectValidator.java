@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.openqa.selenium.Keys;
 import org.sikuli.script.Button;
+import org.sikuli.script.Key;
+import org.sikuli.script.KeyModifier;
 import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
@@ -31,6 +33,8 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.commons.ImageSection;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
+import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextValidationMechanism;
+import com.induscorp.prime.testing.ui.core.utils.ClipboardUtil;
 
 /**
  * 
@@ -44,7 +48,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		super(browser, locator, region);
 		this.imgLocator = locator;
 	}
-	
+
 	@Override
 	public ImageObject getUIObject() {
 		return imgLocator;
@@ -173,64 +177,6 @@ public class ImageObjectValidator extends UIObjectValidator {
 		return isPresent(numRetries);
 	}
 
-	/*
-	 * public boolean isDisabled(int numRetries) { return false; }
-	 */
-
-	/**
-	 * Determine whether or not this element is selected or not. This operation
-	 * only applies to input elements such as checkboxes, options in a select
-	 * and radio buttons.
-	 * 
-	 * @return True if the element is currently selected or checked, false
-	 *         otherwise.
-	 */
-	/*
-	 * public boolean isSelected(int numRetries) { return false; }
-	 */
-
-	/**
-	 * Finds text from first element.
-	 * 
-	 * @param numRetries
-	 */
-	/*
-	 * public String getText(int numRetries) {
-	 * 
-	 * return null; }
-	 */
-
-	/**
-	 * Copy text into clipboard from the current cursor position. Applicable
-	 * only for editable fields i.e textbox, textarea etc. First it will click
-	 * on that element and then select all text and copy into clipboard.
-	 * 
-	 * @return
-	 */
-	/*
-	 * public void copyTextToClipboard(int numRetries) { try { Match match =
-	 * findElement(numRetries); match.click(); Actions webActions = new
-	 * Actions(browser.getSeleniumWebDriver()); webActions.sendKeys(Keys.CONTROL
-	 * + "a").sendKeys(Keys.CONTROL + "c"); } catch (Throwable th) {
-	 * Assert.fail("Failed to copy contents into clipboard. Element '" +
-	 * imgLocator.getDisplayName() + "'.", th); } }
-	 */
-
-	/**
-	 * Replace the content of the element with the clipboard contents.
-	 * Applicable only for editable fields i.e textbox, textarea etc.
-	 * 
-	 * @return
-	 */
-	/*
-	 * public void pasteTextFromClipboard(int numRetries) { try { Match match =
-	 * findElement(numRetries); Actions webActions = new
-	 * Actions(browser.getSeleniumWebDriver()); webActions.sendKeys(Keys.CONTROL
-	 * + "a").sendKeys(Keys.CONTROL + "v").build().perform(); } catch (Throwable
-	 * th) { Assert.fail("Failed to paste clipboard contents into field '" +
-	 * imgLocator.getDisplayName() + "'.", th); } }
-	 */
-
 	public void click(int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -239,9 +185,9 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform mouse click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	protected Location getImageSection(Match imageMatch, ImageSection imageSection) {
-		switch(imageSection) {
+		switch (imageSection) {
 		case topLeft:
 			return imageMatch.getTopLeft();
 		case topRight:
@@ -255,7 +201,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		}
 		return null;
 	}
-	
+
 	public void click(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -273,7 +219,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform mouse double click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void doubleClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -291,7 +237,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 			Assert.fail("Failed to perform mouse right click on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
-	
+
 	public void rightClick(ImageSection imageSection, int numRetries) {
 		try {
 			Match match = findElement(numRetries);
@@ -341,9 +287,10 @@ public class ImageObjectValidator extends UIObjectValidator {
 		try {
 			Match match = findElement(numRetries);
 			match.click();
-			match.keyDown(keys.charAt(0));
+			match.keyDown(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyDown on element '" + imgLocator.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyDown('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
+					+ imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -352,9 +299,10 @@ public class ImageObjectValidator extends UIObjectValidator {
 		try {
 			Match match = findElement(numRetries);
 			match.click();
-			match.keyUp(keys.charAt(0));
+			match.keyUp(seleniumToSikuliKeyConverter(keys));
 		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyUp on element '" + imgLocator.getDisplayName() + "'.", th);
+			Assert.fail("Failed to perform keyUp ('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
+					+ imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
@@ -363,24 +311,56 @@ public class ImageObjectValidator extends UIObjectValidator {
 		try {
 			Match match = findElement(numRetries);
 			match.click();
-			match.keyDown(keys.charAt(0));
-			match.keyUp(keys.charAt(0));
+			match.keyDown(seleniumToSikuliKeyConverter(keys));
+			match.keyUp(seleniumToSikuliKeyConverter(keys));
+		} catch (Throwable th) {
+			Assert.fail("Failed to perform keyPressed ('" + seleniumToSikuliKeyConverter(keys) + "') on element '"
+					+ imgLocator.getDisplayName() + "'.", th);
+		}
+	}
+
+	@Override
+	public void typeText(String text, NewTextLocation location, int numRetries) {
+		try {
+			Match match = findElement(numRetries);
+			match.click();
+			switch (location) {
+			case start:
+				match.type(Key.HOME);
+				break;
+			case end:
+				match.type(Key.END);
+				break;
+			case replace:
+				match.type("a", KeyModifier.CTRL);
+				break;
+			}
+
+			match.type(text);
+			validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyPressed on element '" + imgLocator.getDisplayName() + "'.", th);
 		}
 	}
 
-	@Override
-	public void typeText(String text, int numRetries) {
-		try {
-			Match match = findElement(numRetries);
-			match.click();
-			for (int i = 0; i < text.length(); i++) {
-				match.keyDown(text.charAt(i));
-				match.keyUp(text.charAt(i));
-			}
-		} catch (Throwable th) {
-			Assert.fail("Failed to perform keyPressed on element '" + imgLocator.getDisplayName() + "'.", th);
-		}
+	public void validateValue(String expectedValue, TextValidationMechanism validationMechanism, int numRetries) {
+		Match match = findElement(numRetries);
+		validateTextValue(match.text(), expectedValue, validationMechanism);
+	}
+
+	public String getText(int numRetries) {
+		Match match = findElement(numRetries);
+		return match.text();
+	}
+
+	public String getEditableFieldTextUsingClipboard(int numRetries) {
+		Match match = findElement(numRetries);
+		match.click();
+		match.type("a", KeyModifier.CTRL);
+		match.type("c", KeyModifier.CTRL);
+		match.click();
+		String contents = ClipboardUtil.getContents();
+		ClipboardUtil.clearContents();
+		return contents;
 	}
 }

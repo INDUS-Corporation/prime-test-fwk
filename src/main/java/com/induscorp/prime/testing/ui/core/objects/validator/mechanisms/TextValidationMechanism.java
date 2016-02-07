@@ -23,5 +23,6 @@ package com.induscorp.prime.testing.ui.core.objects.validator.mechanisms;
  *
  */
 public enum TextValidationMechanism {
-	exactMatchWithExpectedValue, startsWithExpectedValue, endsWithExpectedValue, containsExpectedValue
+	exactMatchWithExpectedValue, startsWithExpectedValue, endsWithExpectedValue, containsExpectedValue, matchWithRegularExpression,
+	exactMatchWithExpectedValueWithRemovedWhiteSpace, 
 }

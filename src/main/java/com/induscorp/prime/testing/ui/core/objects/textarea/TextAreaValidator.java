@@ -20,6 +20,7 @@ package com.induscorp.prime.testing.ui.core.objects.textarea;
 import org.sikuli.script.Region;
 
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
+import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
 import com.induscorp.prime.testing.ui.core.objects.UIObjectValidator;
 import com.induscorp.prime.testing.ui.core.objects.validator.mechanisms.TextValidationMechanism;
 
@@ -45,7 +46,7 @@ public abstract class TextAreaValidator extends UIObjectValidator {
 
 	public abstract void validateEnabled(int numRetries);
 
-	public abstract void typeText(String textToType, int numRetries);
+	public abstract void typeText(String textToType, NewTextLocation location, int numRetries);
 
 	public abstract void validateTextValue(String expectedValue, TextValidationMechanism validationMechanism,
 			int numRetries);

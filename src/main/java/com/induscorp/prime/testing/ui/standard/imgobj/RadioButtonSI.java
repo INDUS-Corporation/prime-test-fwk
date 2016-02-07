@@ -23,44 +23,44 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.commons.LocatorType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ObjectLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.Button;
+import com.induscorp.prime.testing.ui.core.objects.radio.RadioButton;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class ButtonSI extends Button {
-	protected String buttonImg;
-	protected ObjectLocation buttonImgLocation;
+public class RadioButtonSI extends RadioButton {
+	protected String radioButtonImg;
+	protected ObjectLocation radioButtonImgLocation;
 
-	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
+	public RadioButtonSI(String displayName, String radioButtonImg, ObjectLocation radioButtonImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.buttonImg = buttonImg;
-		this.buttonImgLocation = buttonImgLocation;
-	}
-	
-	public String getButtonImage() {
-		return buttonImg;
+		this.radioButtonImg = radioButtonImg;
+		this.radioButtonImgLocation = radioButtonImgLocation;
 	}
 
-	public ObjectLocation getButtonImageLocation() {
-		return buttonImgLocation;
+	public String getRadioButtonImage() {
+		return radioButtonImg;
 	}
 
-	@Override
-	public ButtonValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new ButtonValidatorSI(browser, this, region);
+	public ObjectLocation getRadioButtonImageLocation() {
+		return radioButtonImgLocation;
 	}
 
 	@Override
-	public ButtonSI clone() {
+	public RadioButtonValidatorSI getValidator(WebBrowser browser, Region region) {
+		return new RadioButtonValidatorSI(browser, this, region);
+	}
+
+	@Override
+	public RadioButtonSI clone() {
 		return null;
 	}
 
 	@Override
-	public ButtonSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public RadioButtonSI updateLocatorParameterWithValue(String paramName, String value) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

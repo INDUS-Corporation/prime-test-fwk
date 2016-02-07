@@ -23,44 +23,44 @@ import org.testng.Assert;
 import com.induscorp.prime.testing.ui.core.commons.LocatorType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ObjectLocation;
-import com.induscorp.prime.testing.ui.core.objects.button.Button;
+import com.induscorp.prime.testing.ui.core.objects.checkbox.CheckBox;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class ButtonSI extends Button {
-	protected String buttonImg;
-	protected ObjectLocation buttonImgLocation;
+public class CheckBoxSI extends CheckBox {
+	protected String checkBoxImg;
+	protected ObjectLocation checkBoxImgLocation;
 
-	public ButtonSI(String displayName, String buttonImg, ObjectLocation buttonImgLocation) {
+	public CheckBoxSI(String displayName, String checkBoxImg, ObjectLocation checkBoxImgLocation) {
 		super(LocatorType.IMAGE, displayName);
-		this.buttonImg = buttonImg;
-		this.buttonImgLocation = buttonImgLocation;
-	}
-	
-	public String getButtonImage() {
-		return buttonImg;
+		this.checkBoxImg = checkBoxImg;
+		this.checkBoxImgLocation = checkBoxImgLocation;
 	}
 
-	public ObjectLocation getButtonImageLocation() {
-		return buttonImgLocation;
+	public String getCheckBoxImage() {
+		return checkBoxImg;
 	}
 
-	@Override
-	public ButtonValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new ButtonValidatorSI(browser, this, region);
+	public ObjectLocation getCheckBoxImageLocation() {
+		return checkBoxImgLocation;
 	}
 
 	@Override
-	public ButtonSI clone() {
+	public CheckBoxValidatorSI getValidator(WebBrowser browser, Region region) {
+		return new CheckBoxValidatorSI(browser, this, region);
+	}
+
+	@Override
+	public CheckBoxSI clone() {
 		return null;
 	}
 
 	@Override
-	public ButtonSI updateLocatorParameterWithValue(String paramName, String value) {
-		Assert.fail("updateLocatorParameterWithValue() API is not implemented."); 
+	public CheckBoxSI updateLocatorParameterWithValue(String paramName, String value) {
+		Assert.fail("updateLocatorParameterWithValue() API is not implemented.");
 		return this;
 	}
 

@@ -20,6 +20,7 @@ package com.induscorp.prime.testing.ui.core.objects;
 import java.awt.Rectangle;
 
 import org.openqa.selenium.Keys;
+import org.sikuli.script.Key;
 import org.sikuli.script.Region;
 import org.testng.Assert;
 
@@ -46,10 +47,11 @@ public abstract class UIObjectValidator {
 		this.browser = browser;
 		this.uiObject = uiObject;
 		if (browser != null) {
-			this.region = (region == null) ? new Region(
+			this.region = (region == null) ? Region.create(
 					new Rectangle(0, 0, new Double(browser.getAppConfig().getBrowserWindowSize().getWidth()).intValue(),
 							new Double(browser.getAppConfig().getBrowserWindowSize().getHeight()).intValue()))
 					: region;
+
 		}
 	}
 
@@ -98,19 +100,19 @@ public abstract class UIObjectValidator {
 			switch (kbEvent.getName()) {
 			case kbKeyDown:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
 				}
 				performKeyDown(kbEvent.getKey(), numRetries);
 				break;
 			case kbKeyUp:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
 				}
 				performKeyUp(kbEvent.getKey(), numRetries);
 				break;
 			case keyPressed:
 				if (kbEvent.getInputText() != null) {
-					typeText(kbEvent.getInputText(), numRetries);
+					typeText(kbEvent.getInputText(), kbEvent.getTextLocation(), numRetries);
 				}
 				performKeyPressed(kbEvent.getKey(), numRetries);
 				break;
@@ -118,15 +120,15 @@ public abstract class UIObjectValidator {
 		}
 
 	}
-	
+
 	protected boolean matchTextValue(String actualValue, String expectedValue,
 			TextValidationMechanism validationMechanism) {
 		boolean matched = false;
-		
-		if(actualValue == null) {
+
+		if (actualValue == null) {
 			return false;
 		}
-		
+
 		switch (validationMechanism) {
 		case startsWithExpectedValue:
 			if (actualValue.startsWith(expectedValue)) {
@@ -148,8 +150,18 @@ public abstract class UIObjectValidator {
 				matched = true;
 			}
 			break;
+		case matchWithRegularExpression:
+			if (actualValue.matches(expectedValue)) {
+				matched = true;
+			}
+			break;
+		case exactMatchWithExpectedValueWithRemovedWhiteSpace:
+			if (actualValue.replaceAll(" ", "").equals(expectedValue.replaceAll(" ", ""))) {
+				matched = true;
+			}
+			break;
 		}
-		
+
 		return matched;
 	}
 
@@ -180,7 +192,97 @@ public abstract class UIObjectValidator {
 						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + "'.");
 			}
 			break;
+		case matchWithRegularExpression:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail("Actual value '" + actualValue + "' does not equal to expected regular expression value '"
+						+ expectedValue + "'.");
+			}
+			break;
+		case exactMatchWithExpectedValueWithRemovedWhiteSpace:
+			if (!matchTextValue(actualValue, expectedValue, validationMechanism)) {
+				Assert.fail(
+						"Actual value '" + actualValue + "' does not equal to expected value '" + expectedValue + "'.");
+			}
+			break;
 		}
+	}
+
+	public String seleniumToSikuliKeyConverter(Keys key) {
+		switch (key.name()) {
+		case "HOME":
+			return Key.HOME;
+		case "END":
+			return Key.END;
+		case "TAB":
+			return Key.TAB;
+		case "BACK_SPACE":
+			return Key.BACKSPACE;
+		case "RETURN":
+			return Key.ENTER;
+		case "ENTER":
+			return Key.ENTER;
+		case "SHIFT":
+			return Key.SHIFT;
+		case "CONTROL":
+			return Key.CTRL;
+		case "ALT":
+			return Key.ALT;
+		case "ESCAPE":
+			return Key.ESC;
+		case "SPACE":
+			return Key.SPACE;
+		case "PAGE_UP":
+			return Key.PAGE_UP;
+		case "PAGE_DOWN":
+			return Key.PAGE_DOWN;
+		case "LEFT":
+		case "ARROW_LEFT":
+			return Key.LEFT;
+		case "UP":
+		case "ARROW_UP":
+			return Key.UP;
+		case "RIGHT":
+		case "ARROW_RIGHT":
+			return Key.RIGHT;
+		case "DOWN":
+		case "ARROW_DOWN":
+			return Key.DOWN;
+		case "INSERT":
+			return Key.INSERT;
+		case "DELETE":
+			return Key.DELETE;
+		case "SEMICOLON":
+			return ";";
+		case "F1":
+			return Key.F1;
+		case "F2":
+			return Key.F2;
+		case "F3":
+			return Key.F3;
+		case "F4":
+			return Key.F4;
+		case "F5":
+			return Key.F5;
+		case "F6":
+			return Key.F6;
+		case "F7":
+			return Key.F7;
+		case "F8":
+			return Key.F8;
+		case "F9":
+			return Key.F9;
+		case "F10":
+			return Key.F10;
+		case "F11":
+			return Key.F11;
+		case "F12":
+			return Key.F12;
+		case "META":
+			return Key.META;
+		case "COMMAND":
+			return Key.CMD;
+		}
+		return null;
 	}
 
 	public abstract boolean isPresent(int numRetries);
@@ -203,13 +305,13 @@ public abstract class UIObjectValidator {
 
 	public abstract void performKeyPressed(Keys keys, int numRetries);
 
-	public abstract void typeText(String text, int numRetries);
+	public abstract void typeText(String text, NewTextLocation location, int numRetries);
 
 	public abstract UIObjectValidator scrollElementOnViewport(Scrollbar scrollbar);
 
 	public abstract Object findElement(int numRetries);
 
 	public abstract Object findElementNoException(int numRetries);
-	
+
 	public abstract Object findElements(int numRetries);
 }

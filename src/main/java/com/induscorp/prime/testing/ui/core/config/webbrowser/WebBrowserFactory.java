@@ -1,6 +1,7 @@
 package com.induscorp.prime.testing.ui.core.config.webbrowser;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.sikuli.basics.Settings;
 import org.testng.Assert;
 
 import com.induscorp.prime.testing.ui.core.config.AppConfig;
@@ -54,13 +56,51 @@ public class WebBrowserFactory {
 	private WebBrowserFactory() {
 		this.testConfigMgr = TestConfigManager.getInstance();
 		appBrowserMap = new HashMap<String, WebBrowser>(3);
+		initializeSikuli();
+	}
+
+	protected void initializeSikuli() {
+		try {
+			Map<String, String> settings = testConfigMgr.getSikuliSettings().getAllSettings();
+			String value;
+			for (String name : settings.keySet()) {
+				value = settings.get(name);
+
+				Field f = Settings.class.getDeclaredField(name);
+				f.set(null, createObjectFromTypedValue(name, value));
+			}
+		} catch (Throwable th) {
+			Assert.fail("Failed to initialize the sikuli driver.", th);
+		}
+	}
+
+	protected Object createObjectFromTypedValue(String propertyName, String typedValue) {
+		String typeValueArr[] = typedValue.split(":");
+		Assert.assertTrue(typeValueArr.length > 1,
+				"typedValue format is wrong for property '" + propertyName + "'. It should be <data-type>:<value>");
+		
+		switch(typeValueArr[0]) {
+		case "integer":
+			return Integer.parseInt(typeValueArr[1]);
+		case "string":
+			return typeValueArr[1];
+		case "float":
+			return Float.parseFloat(typeValueArr[1]);
+		case "double":
+			return Double.parseDouble(typeValueArr[1]);
+		case "boolean":
+			return Boolean.parseBoolean(typeValueArr[1]);
+		}
+
+		Assert.fail("'" + typeValueArr[0] + "' datatype is not supported for '" + propertyName + "' property.");
+		return null;
 	}
 
 	public synchronized WebBrowser getAppWebBrowser(String appName, String browserId) {
 		AppConfig appConfig = testConfigMgr.getAppConfig(appName);
 		WebBrowserType type = appConfig.getAppWebBrowser();
 		String loginURL = appConfig.getAppLaunchUrl();
-		
+
 		WebBrowser browser = appBrowserMap.get(appName + ":" + browserId);
 		try {
 			switch (type) {

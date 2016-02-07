@@ -81,15 +81,20 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	@Override
 	public WebElement findElement(int numRetries) {
-		WebElement webElem = null;		
+		WebElement webElem = null;
 		for (int i = 0; i <= numRetries; i++) {
-			try {					
-				//browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-				//browser.getSeleniumWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());				
-				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");				
-				//System.out.println(domObject.getDisplayName() + ", DISPLAYED:         " + webElem.isDisplayed() + ", " + webElem.isEnabled());
-				//Assert.assertTrue(webElem.isDisplayed(), "Unable to find element '" + domObject.getDisplayName() + "'. Reason - Not displayed.");
+			try {
+				// browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(30,
+				// TimeUnit.SECONDS);
+				// browser.getSeleniumWebDriver().manage().timeouts().implicitlyWait(10,
+				// TimeUnit.SECONDS);
+				webElem = browser.getSeleniumWebDriver().findElement(domObject.getLocatorAsBy());
+				Assert.assertNotNull(webElem, "Unable to find element '" + domObject.getDisplayName() + "'.");
+				// System.out.println(domObject.getDisplayName() + ", DISPLAYED:
+				// " + webElem.isDisplayed() + ", " + webElem.isEnabled());
+				// Assert.assertTrue(webElem.isDisplayed(), "Unable to find
+				// element '" + domObject.getDisplayName() + "'. Reason - Not
+				// displayed.");
 				break;
 			} catch (Throwable th) {
 				if (i == numRetries) {
@@ -102,17 +107,17 @@ public class DOMObjectValidator extends UIObjectValidator {
 		}
 		return webElem;
 	}
-	
-	public void waitForPageLoad() {		
-		WebDriverWait wait = new WebDriverWait(browser.getSeleniumWebDriver(), 30);		
-	    wait.until(new Function<WebDriver, Boolean>() {
-	        public Boolean apply(WebDriver driver) {
-	        	String readyState = String.valueOf(((JavascriptExecutor) 
-	        			browser.getSeleniumWebDriver()).executeScript("return document.readyState"));
-	            //System.out.println("Current Window State: " + readyState);
-	            return "complete".equals(readyState);
-	        }
-	    });
+
+	public void waitForPageLoad() {
+		WebDriverWait wait = new WebDriverWait(browser.getSeleniumWebDriver(), 30);
+		wait.until(new Function<WebDriver, Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				String readyState = String.valueOf(((JavascriptExecutor) browser.getSeleniumWebDriver())
+						.executeScript("return document.readyState"));
+				// System.out.println("Current Window State: " + readyState);
+				return "complete".equals(readyState);
+			}
+		});
 	}
 
 	/**
@@ -307,14 +312,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public void copyTextToClipboard(int numRetries) {
 		try {
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.sendKeys(Keys.CONTROL + "a").sendKeys(Keys.CONTROL + "c");
 					break;
-				} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
 				}
 			}
@@ -331,14 +336,14 @@ public class DOMObjectValidator extends UIObjectValidator {
 	 */
 	public void pasteTextFromClipboard(int numRetries) {
 		try {
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.sendKeys(Keys.CONTROL + "a").sendKeys(Keys.CONTROL + "v").build().perform();
 					break;
-				} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
 				}
 			}
@@ -350,12 +355,12 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public void click(int numRetries) {
 		try {
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
 					break;
-				} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
 				}
 			}
@@ -367,7 +372,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 	@Override
 	public void doubleClick(int numRetries) {
 		try {
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement webElem = findElement(numRetries);
 					webElem.click();
@@ -375,7 +380,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.doubleClick().build().perform();
 					break;
-				} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
 				}
 			}
@@ -399,26 +404,26 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public void clickAndHold(int numRetries) {
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.clickAndHold(webElem).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
 	}
 
 	public void release(int numRetries) {
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.release(webElem).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
@@ -426,7 +431,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 
 	public void dragAndDrop(DOMObject target, int numRetries) {
 		try {
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				try {
 					WebElement sourceElem = findElement(numRetries);
 					WebElement targetElem = target.getValidator(browser, region).findElement(numRetries);
@@ -434,7 +439,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					Actions webActions = new Actions(browser.getSeleniumWebDriver());
 					webActions.dragAndDrop(sourceElem, targetElem).build().perform();
 					break;
-				} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+				} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 					browser.waitForSeconds(2);
 				}
 			}
@@ -445,52 +450,67 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public void performKeyDown(Keys keys, int numRetries) {
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.keyDown(webElem, keys).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
 	}
 
 	public void performKeyUp(Keys keys, int numRetries) {
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.keyUp(webElem, keys).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
 	}
 
 	public void performKeyPressed(Keys keys, int numRetries) {
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.keyDown(webElem, keys).keyUp(webElem, keys).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
 	}
 
-	public void typeText(String text, int numRetries) {		
-		for(int i = 0; i < 5; i++) {
+	public void typeText(String text, NewTextLocation location, int numRetries) {
+		for (int i = 0; i < 5; i++) {
 			try {
 				WebElement webElem = findElement(numRetries);
+				switch (location) {
+				case start:
+					performKeyPressed(Keys.HOME, numRetries);
+					break;
+				case end:
+					performKeyPressed(Keys.END, numRetries);
+					break;
+				case replace:
+					performKeyDown(Keys.CONTROL, numRetries);
+					Actions actions = new Actions(browser.getSeleniumWebDriver());
+					actions.sendKeys("a", text).build().perform();
+					performKeyUp(Keys.CONTROL, numRetries);
+					break;
+				}
+
 				Actions actions = new Actions(browser.getSeleniumWebDriver());
 				actions.sendKeys(webElem, text).build().perform();
 				break;
-			} catch(MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
+			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
 			}
 		}
