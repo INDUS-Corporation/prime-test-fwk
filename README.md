@@ -1,5 +1,8 @@
+**Supported JDK:** 1.8+
+**Tested using JDK:** 1.8
+
 **Prime Testing Automation** is just a framework that provides the way to create/maintain testcases easily. It works on the concept **"Write Less Test More"**. This can be used 
-* to perform end to end software testing automation for web based and desktop applications.
+* to perform end to end software testing automation for **web based** and **desktop** applications.
 * to perform feature testing across multiple software applications.
 
 This framework provides the implementation of standard UI components i.e. TextBox, RadioButton, ComboBox, TextArea etc. It uses the xpath approach to recognize the UI components on the web based applications that uses HTML. If any application that has custom UI components and can not be tested using standard UI components then you can create your own custom components using this framework classes.

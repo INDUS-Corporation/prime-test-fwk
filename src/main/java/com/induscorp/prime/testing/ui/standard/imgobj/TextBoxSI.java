@@ -61,16 +61,18 @@ public class TextBoxSI extends TextBox {
 		return readOnly;
 	}
 
-	public void setReadOnly(boolean readOnly) {
+	public TextBoxSI setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
+		return this;
 	}
 
 	public boolean isDisabled() {
 		return disabled;
 	}
 
-	public void setDisabled(boolean disabled) {
+	public TextBoxSI setDisabled(boolean disabled) {
 		this.disabled = disabled;
+		return this;
 	}
 
 	@Override

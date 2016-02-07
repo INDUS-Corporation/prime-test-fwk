@@ -22,35 +22,35 @@ import org.sikuli.script.Region;
 import com.induscorp.prime.testing.ui.core.commons.LocatorType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ObjectLocation;
-import com.induscorp.prime.testing.ui.core.objects.textarea.TextArea;
+import com.induscorp.prime.testing.ui.core.objects.listbox.ListBox;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public class TextAreaSI extends TextArea {
-	protected String leftSideImg;
-	protected String rightSideImg;
+public class ListBoxSI extends ListBox {
+	protected int width;
+	protected int height;
 	protected ObjectLocation location;
 	protected boolean readOnly;
 	protected boolean disabled;
 
-	public TextAreaSI(String displayName, String leftSideImg, String rightSideImg, ObjectLocation location) {
+	public ListBoxSI(String displayName, int width, int height, ObjectLocation location) {
 		super(LocatorType.IMAGE, displayName);
-		this.leftSideImg = leftSideImg;
-		this.rightSideImg = rightSideImg;
+		this.width = width;
+		this.height = height;
 		this.location = location;
-		this.readOnly = false;
+		this.readOnly = true;
 		this.disabled = false;
 	}
 
-	public String getLeftSideImage() {
-		return leftSideImg;
+	public int getWidth() {
+		return width;
 	}
 
-	public String getRightSideImage() {
-		return rightSideImg;
+	public int getHeight() {
+		return height;
 	}
 
 	public ObjectLocation getLocation() {
@@ -61,7 +61,7 @@ public class TextAreaSI extends TextArea {
 		return readOnly;
 	}
 
-	public TextAreaSI setReadOnly(boolean readOnly) {
+	public ListBoxSI setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 		return this;
 	}
@@ -70,24 +70,24 @@ public class TextAreaSI extends TextArea {
 		return disabled;
 	}
 
-	public TextAreaSI setDisabled(boolean disabled) {
+	public ListBoxSI setDisabled(boolean disabled) {
 		this.disabled = disabled;
 		return this;
 	}
 
 	@Override
-	public TextAreaValidatorSI getValidator(WebBrowser browser, Region region) {
-		return new TextAreaValidatorSI(browser, this, region);
+	public ListBoxValidatorSI getValidator(WebBrowser browser, Region region) {
+		return new ListBoxValidatorSI(browser, this, region);
 	}
 
 	@Override
-	public TextAreaSI clone() {
-		return new TextAreaSI(displayName, leftSideImg, rightSideImg, location);
+	public ListBoxSI clone() {
+		return new ListBoxSI(displayName, width, height, location);
 	}
 
 	@Override
 	@Deprecated
-	public TextAreaSI updateLocatorParameterWithValue(String paramName, String value) {
+	public ListBoxSI updateLocatorParameterWithValue(String paramName, String value) {
 		return this;
 	}
 

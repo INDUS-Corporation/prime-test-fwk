@@ -146,6 +146,20 @@ public class ObjectLocation {
 		}
 		return null;
 	}
+	
+	public Rectangle getRectangleOfImageObject(WebBrowser browser, int width,
+			int height) {
+		switch (objLocType) {
+		case WITHIN_CUSTOM_LIMIT:
+		case WITHIN_SCREEN_LIMIT:
+			Assert.fail("Size based components not supported for WITHIN_CUSTOM_LIMIT, WITHIN_SCREEN_LIMIT.");
+			return null;
+		case RELATIVE_TO_REF_OBJ:
+			return calculateRectangleOfImgObjUsingRefObj(browser, width,
+					height);
+		}
+		return null;
+	}
 
 	/**
 	 * Applicable if ObjectLocationType = RELATIVE_TO_REF_OBJ
@@ -385,6 +399,63 @@ public class ObjectLocation {
 
 		return rect;
 	}
+	
+	private Rectangle calculateRectangleOfImgObjUsingRefObj(WebBrowser browser, int width,
+			int height) {
+		Rectangle rect = null;
+		
+		Object refElem = refObject.getValidator(browser, null).findElement(0);
+		Rectangle refElemRect = null;
+		if (refElem instanceof Match) {
+			Match refElemAsImg = (Match) refElem;
+			refElemRect = refElemAsImg.getRect();
+		} else if (refElem instanceof WebElement) {
+			WebElement refElemAsDOM = (WebElement) refElem;
+			refElemRect = new Rectangle(refElemAsDOM.getRect().getX(), refElemAsDOM.getRect().getY(),
+					refElemAsDOM.getRect().getWidth(), refElemAsDOM.getRect().getHeight());
+		}
+
+		Assert.assertNotNull(refElemRect, "Failed to find reference element '" + refObject.getDisplayName() + "'.");
+
+		int refObjX1 = new Double(refElemRect.getX()).intValue();
+		int refObjY1 = new Double(refElemRect.getY()).intValue();
+		int refObjX2 = new Double(refElemRect.getX() + refElemRect.getWidth()).intValue();
+		int refObjY2 = new Double(refElemRect.getY() + refElemRect.getHeight()).intValue();
+
+		int elemX1, elemY1;
+		
+		switch (refObjectPosition) {
+		case LEFT:
+			elemX1 = refObjX2;
+			elemY1 = refObjY1 + refObjectDistanceInPx;
+			
+			rect = new Rectangle(elemX1, elemY1, width, height);
+			break;
+
+		case RIGHT:
+			elemX1 = refObjX1 - width;
+			elemY1 = refObjY1 + refObjectDistanceInPx;
+			
+			rect = new Rectangle(elemX1, elemY1, width, height);
+			break;
+
+		case TOP:
+			elemX1 = refObjX1 - leftMarginOfRefObjectInPx;
+			elemY1 = refObjY2;
+			
+			rect = new Rectangle(elemX1, elemY1, width, height);
+			break;
+
+		case BOTTOM:
+			elemX1 = refObjX1 - leftMarginOfRefObjectInPx;
+			elemY1 = refObjY1 - height;
+			
+			rect = new Rectangle(elemX1, elemY1, width, height);
+			break;
+		}
+
+		return rect;
+	}
 
 	/**
 	 * Applicable if ObjectLocationType = RELATIVE_TO_REF_OBJ
@@ -575,6 +646,12 @@ public class ObjectLocation {
 	public Region getRegionOfImageObject(WebBrowser browser, String leftSideImageOfImageObject,
 			String rightSideImageOfImageObject) {
 		return new Region(getRectangleOfImageObject(browser, leftSideImageOfImageObject, rightSideImageOfImageObject));
+
+	}
+	
+	public Region getRegionOfImageObject(WebBrowser browser, int width,
+			int height) {
+		return new Region(getRectangleOfImageObject(browser, width, height));
 
 	}
 
