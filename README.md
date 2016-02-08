@@ -42,4 +42,4 @@ This framework also provides interface with the databases with a very easy way. 
 Please refer wiki pages for more details about this framework.
 
 # License
-LGPLv3 - GNU LESSER GENERAL PUBLIC LICENSE, Version 3 
+<a href="http://www.gnu.org/licenses/lgpl-3.0.en.html">GNU LESSER GENERAL PUBLIC LICENSE, version-3</a>
