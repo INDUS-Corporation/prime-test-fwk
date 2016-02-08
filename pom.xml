@@ -8,11 +8,11 @@
 	<name>Prime Testing Automation Framework</name>
 
 	<properties>
-		<testng.version>6.8.8</testng.version>
-		<selenium.version>2.49.1</selenium.version>		
+		<testng.version>6.9.10</testng.version>
+		<selenium.version>2.50.1</selenium.version>		
 		<cucumber.version>1.2.4</cucumber.version>
 		<sikulix.version>1.1.0</sikulix.version>
-		<slf4j.version>1.7.7</slf4j.version>
+		<slf4j.version>1.7.14</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<hibernate.version>5.0.7.Final</hibernate.version>
 		<xmlapi.version>1.4.01</xmlapi.version>

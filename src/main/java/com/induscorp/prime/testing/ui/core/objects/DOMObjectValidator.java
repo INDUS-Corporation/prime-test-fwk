@@ -35,6 +35,7 @@ import org.testng.Assert;
 import com.google.common.base.Function;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.scrollbar.Scrollbar;
+import com.induscorp.prime.testing.ui.core.utils.ClipboardUtil;
 
 /**
  * 
@@ -489,26 +490,41 @@ public class DOMObjectValidator extends UIObjectValidator {
 	}
 
 	public void typeText(String text, NewTextLocation location, int numRetries) {
+		String newtext;
+		Actions actions;
 		for (int i = 0; i < 5; i++) {
 			try {
-				WebElement webElem = findElement(numRetries);
+				WebElement webElem = findElement(numRetries);				
+				ClipboardUtil.clearContents();
+				
+				try {					
+					actions = new Actions(browser.getSeleniumWebDriver());
+					actions.sendKeys(webElem, Keys.CONTROL + "ax").build().perform();
+				} finally {
+					actions = new Actions(browser.getSeleniumWebDriver());
+					actions.keyUp(webElem, Keys.CONTROL).build().perform();
+				}
+				
+				String existingText = ClipboardUtil.getContents();		
+				ClipboardUtil.clearContents();
+				
 				switch (location) {
-				case start:
-					performKeyPressed(Keys.HOME, numRetries);
+				case start:					
+					newtext = text + existingText;					
+					actions = new Actions(browser.getSeleniumWebDriver());
+					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case end:
-					performKeyPressed(Keys.END, numRetries);
+					newtext = existingText + text;
+					actions = new Actions(browser.getSeleniumWebDriver());
+					actions.sendKeys(webElem, newtext).build().perform();
 					break;
 				case replace:
-					performKeyDown(Keys.CONTROL, numRetries);
-					Actions actions = new Actions(browser.getSeleniumWebDriver());
-					actions.sendKeys("a", text).build().perform();
-					performKeyUp(Keys.CONTROL, numRetries);
+					actions = new Actions(browser.getSeleniumWebDriver());
+					actions.sendKeys(webElem, text).build().perform();
 					break;
-				}
-
-				Actions actions = new Actions(browser.getSeleniumWebDriver());
-				actions.sendKeys(webElem, text).build().perform();
+				} 
+				
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);
