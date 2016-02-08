@@ -3,7 +3,7 @@
 **Tested using Web Browser:** Firefox, Chrome, InternetExplorer <br>
 **Tested on Platform:** Windows (7, 8, 10)
 
-**Prime Testing Automation** is just a software application testing framework that provides the way to create/maintain testcases easily. It works on the concept **"Write Less Test More"**. This can be used 
+**Prime Testing Automation** is just a software application testing automation framework that provides the way to create/maintain testcases easily. It works on the concept **"Write Less Test More"**. This can be used 
 * to perform end to end software testing automation for **web based** and **desktop** applications.
 * to perform feature testing across multiple software applications.
 
