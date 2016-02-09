@@ -204,7 +204,7 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 			}
 			
 			match.type(text);
-			validateTextValue(text, TextValidationMechanism.containsExpectedValue, 0);
+			//validateTextValue(text, TextValidationMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextArea '" + textAreaObj.getDisplayName() + "'.");
 		}

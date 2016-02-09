@@ -337,7 +337,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 			}
 
 			match.type(text);
-			validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
+			//validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Failed to perform keyPressed on element '" + imgLocator.getDisplayName() + "'.", th);
 		}

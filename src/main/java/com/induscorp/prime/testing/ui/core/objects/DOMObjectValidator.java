@@ -524,7 +524,7 @@ public class DOMObjectValidator extends UIObjectValidator {
 					actions.sendKeys(webElem, text).build().perform();
 					break;
 				} 
-				
+								
 				break;
 			} catch (MoveTargetOutOfBoundsException | ElementNotVisibleException ex) {
 				browser.waitForSeconds(2);

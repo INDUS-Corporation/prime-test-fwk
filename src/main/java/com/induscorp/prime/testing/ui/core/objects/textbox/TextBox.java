@@ -29,7 +29,7 @@ import com.induscorp.prime.testing.ui.core.objects.UIObject;
  * @author Madhav Krishna
  *
  */
-public abstract class TextBox extends UIObject {
+public abstract class TextBox extends UIObject {	
 	public TextBox(LocatorType locatorType, String displayName) {
 		super(locatorType, UIObjectType.textBox, displayName);
 	}

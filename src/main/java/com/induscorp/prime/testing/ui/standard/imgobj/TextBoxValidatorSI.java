@@ -206,7 +206,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 			}
 			
 			match.type(text);
-			validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
+			//validateValue(text, TextValidationMechanism.containsExpectedValue, 0);
 		} catch (Throwable th) {
 			Assert.fail("Fail to type text '" + text + "' in TextBox '" + textBoxObj.getDisplayName() + "'.");
 		}
