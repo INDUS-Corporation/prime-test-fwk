@@ -138,11 +138,11 @@ public class WebBrowserFactory {
 					browser.getSeleniumWebDriver().manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
 					browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();
-					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
+					// browser.getSeleniumWebDriver().manage().window().maximize();					
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
 
 					browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
@@ -167,11 +167,11 @@ public class WebBrowserFactory {
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();
-					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
+					// browser.getSeleniumWebDriver().manage().window().maximize();					
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
 
 					browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
@@ -200,11 +200,11 @@ public class WebBrowserFactory {
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();
-					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
+					// browser.getSeleniumWebDriver().manage().window().maximize();					
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
+					browser.getSeleniumWebDriver().manage().window().setPosition(new Point(0, 0));
 
 					// browser.getSeleniumWebDriver().navigate().to(loginURL);
 					appBrowserMap.put(appName + ":" + browserId, browser);
