@@ -18,6 +18,8 @@
 package com.induscorp.prime.testing.ui.core.config;
 
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowserType;
@@ -29,6 +31,7 @@ import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowserType;
  */
 public class ChromeDriverConfig {
 	private String driverFilePath;
+	private Map<String, String> driverCapabilities;
 
 	public ChromeDriverConfig(String seleniumConfigDir, Properties properties) {
 		init(seleniumConfigDir, properties);
@@ -41,9 +44,22 @@ public class ChromeDriverConfig {
 			driverFilePath = seleniumConfigDir + File.separator + "web-drivers" + File.separator
 					+ WebBrowserType.chrome.name() + File.separator + driverFilePath.trim();
 		}
+		
+		// initialize driver capabilities
+		driverCapabilities = new LinkedHashMap<String, String>();
+		for(Object key : properties.keySet()) {
+			String strKey = (String) key;
+			if(strKey.startsWith("DriverCapability.")) {
+				driverCapabilities.put(strKey.substring("DriverCapability.".length()), properties.getProperty(strKey));
+			}
+		}
 	}
 	
 	public String getDriverFilePath() {
 		return driverFilePath;
+	}
+	
+	public Map<String, String> getDriverCapabilities() {
+		return driverCapabilities;
 	}
 }

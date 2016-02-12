@@ -78,8 +78,8 @@ public class WebBrowserFactory {
 		String typeValueArr[] = typedValue.split(":");
 		Assert.assertTrue(typeValueArr.length > 1,
 				"typedValue format is wrong for property '" + propertyName + "'. It should be <data-type>:<value>");
-		
-		switch(typeValueArr[0]) {
+
+		switch (typeValueArr[0]) {
 		case "integer":
 			return Integer.parseInt(typeValueArr[1]);
 		case "string":
@@ -110,6 +110,7 @@ public class WebBrowserFactory {
 					FirefoxDriver firefoxDriver = null;
 					FirefoxProfile firefoxProfile = new FirefoxProfile(new File(firefoxDriverCfg.getProfilePath()));
 					DesiredCapabilities dc = DesiredCapabilities.firefox();
+					applyDriverCapabilities(dc, firefoxDriverCfg.getDriverCapabilities());
 					if (appConfig.isEnableWebBrowserExtension()) {
 						File firebugExtnFile;
 						for (String extn : firefoxDriverCfg.getBrowserExtensions().values()) {
@@ -138,7 +139,7 @@ public class WebBrowserFactory {
 					browser.getSeleniumWebDriver().manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
 					browser.getSeleniumWebDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();					
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
@@ -157,6 +158,9 @@ public class WebBrowserFactory {
 				if (browser == null) {
 					ChromeDriver chromeDriver = null;
 					DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
+					
+					applyDriverCapabilities(chromeCapabilities, chromeDriverCfg.getDriverCapabilities());
+					
 					if (appConfig.isEnableWebBrowserExtension()) {
 						chromeDriver = new ChromeDriver(chromeCapabilities);
 					} else {
@@ -167,7 +171,7 @@ public class WebBrowserFactory {
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();					
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
@@ -185,9 +189,14 @@ public class WebBrowserFactory {
 				System.setProperty("webdriver.ie.driver", ieDriverCfg.getDriverFilePath());
 				if (browser == null) {
 					DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+
+					applyDriverCapabilities(ieCapabilities, ieDriverCfg.getDriverCapabilities());
 					ieCapabilities.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL, loginURL);
-					ieCapabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, false);
-					ieCapabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+
+					// ieCapabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING,
+					// false);
+					// ieCapabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION,
+					// true);
 
 					InternetExplorerDriver ieDriver = null;
 					if (appConfig.isEnableWebBrowserExtension()) {
@@ -200,7 +209,7 @@ public class WebBrowserFactory {
 					// browser.getWebDriver().manage().timeouts()
 					// .implicitlyWait(3, TimeUnit.SECONDS);
 
-					// browser.getSeleniumWebDriver().manage().window().maximize();					
+					// browser.getSeleniumWebDriver().manage().window().maximize();
 					browser.getSeleniumWebDriver().manage().window()
 							.setSize(new Dimension(new Double(appConfig.getBrowserWindowSize().getWidth()).intValue(),
 									new Double(appConfig.getBrowserWindowSize().getHeight()).intValue()));
@@ -305,5 +314,32 @@ public class WebBrowserFactory {
 		}
 
 		return proxy;
+	}
+
+	private void applyDriverCapabilities(DesiredCapabilities capabilities, Map<String, String> config) {
+		for (Object key : config.keySet()) {
+			String strKey = (String) key;
+			String[] typedValue;
+			String value = config.get(strKey);
+			typedValue = value.split(":");
+			switch (typedValue[0]) {
+			case "boolean":
+				capabilities.setCapability(strKey, Boolean.parseBoolean(typedValue[1].trim()));
+				break;
+			case "string":
+				capabilities.setCapability(strKey, typedValue[1].trim());
+				break;
+			case "integer":
+				capabilities.setCapability(strKey, Integer.parseInt(typedValue[1].trim()));
+				break;
+			case "float":
+				capabilities.setCapability(strKey, Float.parseFloat(typedValue[1].trim()));
+				break;
+			case "double":
+				capabilities.setCapability(strKey, Double.parseDouble(typedValue[1].trim()));
+				break;
+			}
+		}
+
 	}
 }

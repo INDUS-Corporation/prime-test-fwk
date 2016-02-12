@@ -19,6 +19,7 @@ package com.induscorp.prime.testing.ui.core.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -34,6 +35,7 @@ public class FirefoxDriverConfig {
 	private String driverFilePath;
 	private Map<String, String> browserExtensions;
 	private Map<String, String> browserPreferences;
+	private Map<String, String> driverCapabilities;
 
 	public FirefoxDriverConfig(String seleniumConfigDir, Properties properties) {
 		browserExtensions = new HashMap<String, String>(3);
@@ -70,6 +72,15 @@ public class FirefoxDriverConfig {
 				browserPreferences.put(prop.substring("BROWSER-PREF_".length()), propValue);
 			}
 		}
+		
+		// initialize driver capabilities
+		driverCapabilities = new LinkedHashMap<String, String>();
+		for(Object key : properties.keySet()) {
+			String strKey = (String) key;
+			if(strKey.startsWith("DriverCapability.")) {
+				driverCapabilities.put(strKey.substring("DriverCapability.".length()), properties.getProperty(strKey));
+			}
+		}
 	}
 
 	public String getProfilePath() {
@@ -86,5 +97,9 @@ public class FirefoxDriverConfig {
 
 	public Map<String, String> getBrowserPrefs() {
 		return browserPreferences;
+	}
+	
+	public Map<String, String> getDriverCapabilities() {
+		return driverCapabilities;
 	}
 }
