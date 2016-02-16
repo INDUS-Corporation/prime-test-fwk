@@ -67,7 +67,13 @@ public class WebBrowserFactory {
 				value = settings.get(name);
 
 				Field f = Settings.class.getDeclaredField(name);
-				f.set(null, createObjectFromTypedValue(name, value));
+				if(f.isAccessible()) {
+					f.set(null, createObjectFromTypedValue(name, value));
+				} else {
+					f.setAccessible(true);
+					f.set(null, createObjectFromTypedValue(name, value));
+					f.setAccessible(false);
+				}
 			}
 		} catch (Throwable th) {
 			Assert.fail("Failed to initialize the sikuli driver.", th);
