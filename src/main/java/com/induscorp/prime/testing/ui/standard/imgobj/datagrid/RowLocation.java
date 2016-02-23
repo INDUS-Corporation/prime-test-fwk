@@ -15,20 +15,34 @@
  * version 3 along with PrimeTestFwk. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.induscorp.prime.testing.ui.core.commons;
+package com.induscorp.prime.testing.ui.standard.imgobj.datagrid;
 
 /**
  * 
  * @author Madhav Krishna
  *
  */
-public enum UIObjectType {
-	accordion, button, checkBox, checkBoxGroup, comboBox, listBox,
-	 dateItem, dateTimeItem, timeItem, horizontalScrollBar, hyperlink, image, label, table, locator, menuItem, 
-	radioButton, radioButtonGroup, section, tabSheet, tab, textArea, textBox, textBoxWithSearchIcon, 
-	toolStrip, verticalScrollBar, webPageTitle, webPage, webURL, 
-	leftSideImageOfRectangle, rightSideImageOfRectangle, headerColumn,
+public class RowLocation {
+	protected Integer y1;
+	protected Integer y2;
 	
-	projectSpecific // Used only for project specific component, no handling will be there in core framework.
-}
+	public RowLocation(Integer y1, Integer y2) {
+		this.y1 = y1;
+		this.y2 = y2;
+	}
+	
+	public Integer getY1() {
+		return y1;
+	}
 
+	public Integer getY2() {
+		return y2;
+	}
+	
+	public int getRowHeight() {
+		if(y1 != null && y2 != null) {
+			return (y2 - y1);
+		}
+		return 0;
+	}
+}
