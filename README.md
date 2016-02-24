@@ -2,7 +2,8 @@
 **Supported Platforms:** All platforms (i.e. Windows, Linux etc.) that Selenium and Sikuli supports. <br>
 **Tested using JDK:** 1.8 <br>
 **Tested using Web Browser:** Firefox, Chrome, InternetExplorer <br>
-**Tested on Platforms:** Windows (7, 8, 10)
+**Tested on Platforms:** Windows (7, 8, 10) <br>
+**Main Dependencies:** TestNG, Cucumber, Sikuli, Selenium, Hibernate 
 
 **Prime Testing Automation** is just a software application testing automation framework that provides the way to create/maintain testcases easily. It works on the concept **"Write Less Test More"**. This can be used 
 * to perform end to end software testing automation for **web based** and **desktop** applications.
@@ -13,15 +14,16 @@ This framework provides the implementation of standard UI components i.e. TextBo
 This framework also provides interface with the databases with a very easy way. So you can validate your software application functionality against the data based on business logic.
 
 # Why Prime Testing Automation Framework ?
-* Provides integrated testing automation solution that uses Java programming language.
+* The main purpose of this framework is to standardize the automation of software application testing.
+* Provides integrated software application testing automation solution that uses Java programming language.
 * Used for rapid testcases development.
-* It can be used for End to End Testing, Regression Testing, Functional Testing, Acceptance Testing, Integration Testing etc…
+* It can be used for Black Box Testing, End to End Testing, Regression Testing, Functional Testing, Acceptance Testing, Integration Testing etc…
 * Can be used to enhance software application quality.
 * Can be used to reduce manual testing effort of software application during development / maintenance phase.
 
 # Framework Features
 * Component based approach
-* DOM and Image base testing automation: It provides standard component implementation i.e. TextBox, ComboBox RadioButton, Hyperlink etc....
+* DOM and Image base testing automation: It provides standard component implementation i.e. DataGrid, TextBox, ComboBox RadioButton, Hyperlink etc....
 * Custom UI Component support: You can create your custom component. Please refer wiki page for more information.
 * Multiple application support: You can configure multiple applications and can execute testcases across applications to test particular feature.
 * Multiple user profile support / application
@@ -40,7 +42,7 @@ This framework also provides interface with the databases with a very easy way. 
 		> mvn clean install
 
 # Documentation & More Details
-Please refer wiki pages for more details about this framework.
+Please refer <a href="https://github.com/INDUS-Corporation/prime-test-fwk/wiki">wiki</a> pages for more details about this framework.
 
 # License
 <a href="http://www.gnu.org/licenses/lgpl-3.0.en.html" target="_blank">GNU LESSER GENERAL PUBLIC LICENSE, version 3</a>
