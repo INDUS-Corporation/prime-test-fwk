@@ -291,7 +291,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	@Override
 	public void validateSelectedItem(String expectedValue, TextValidationMechanism validationMechanism,
 			int numRetries) {
-		if (comboBoxObj.isDisabled()) {
+		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			Match match = findElement(numRetries);
 			validateTextValue(match.text(), expectedValue, validationMechanism);
 		} else {
@@ -305,7 +305,7 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 	@Override
 	public String getSelectedItem(int numRetries) {
 		Match match = findElement(numRetries);
-		if (comboBoxObj.isDisabled()) {
+		if (comboBoxObj.isDisabled() || comboBoxObj.isReadOnly()) {
 			return match.text();
 		} else {
 			match.click();

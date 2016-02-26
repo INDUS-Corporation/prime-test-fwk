@@ -160,7 +160,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 	public boolean isPresent(int numRetries) {
 		boolean elemPresent = false;
 		Match match = null;
-		match = findElement(numRetries);
+		match = findElementNoException(numRetries);
 		if (match != null) {
 			elemPresent = true;
 		}
