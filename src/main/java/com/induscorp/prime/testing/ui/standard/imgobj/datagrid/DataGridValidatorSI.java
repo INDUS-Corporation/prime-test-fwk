@@ -136,48 +136,64 @@ public class DataGridValidatorSI {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * This method searches the record from top to bottom.
-	 * @param primaryKey record to be searched in data grid using vertical scrolling.
-	 * @param vScrollbar vertical scrollbar used to navigate the records in the data grid. 
-	 * @param vScrollbarRegion region where the scrollbar present
-	 * @param numHops how many hops/clicks it should perform per numHopIters to start search for a primary key.
-	 * @param numHopIters number of hops iteration.
-	 * @return row location where the primary key present. if null then primary key is not found.
+	 * 
+	 * @param primaryKey
+	 *            record to be searched in data grid using vertical scrolling.
+	 * @param vScrollbar
+	 *            vertical scrollbar used to navigate the records in the data
+	 *            grid.
+	 * @param vScrollbarRegion
+	 *            region where the scrollbar present
+	 * @param numHops
+	 *            how many hops/clicks it should perform per numHopIters to
+	 *            start search for a primary key.
+	 * @param numHopIters
+	 *            number of hops iteration.
+	 * @return row location where the primary key present. if null then primary
+	 *         key is not found.
 	 */
-	public RowLocation isRecordPresent(ItemList<SearchCell> primaryKey, VerticalScrollbar vScrollbar, Region vScrollbarRegion, int numHops, int numHopIters) {
+	public RowLocation isRecordPresent(ItemList<SearchCell> primaryKey,
+			VerticalScrollbar vScrollbar, Region vScrollbarRegion, int numHops,
+			int numHopIters) {
 		RowLocation rowLocation = null;
 		boolean scrollingEnd = false;
-		
+
 		boolean scrollOpEnabled = false;
-		if(!vScrollbar.isScrollbarDisabled(vScrollbarRegion) && vScrollbar.isFullScrollbarVisible(vScrollbarRegion)) {
+		if (vScrollbar != null && !vScrollbar.isScrollbarDisabled(vScrollbarRegion)
+				&& vScrollbar.isFullScrollbarVisible(vScrollbarRegion)) {
 			scrollOpEnabled = true;
 		}
-		
-		do {			
-			rowLocation = isRecordPresent(primaryKey);	
-			if(rowLocation != null) { break; }
-			
-			if(scrollOpEnabled && numHopIters > 0) {
-				scrollingEnd = vScrollbar.clickBottomScrollImage(vScrollbarRegion, numHops);
-				if(scrollingEnd) {
+
+		do {
+			rowLocation = isRecordPresent(primaryKey);
+			if (rowLocation != null) {
+				break;
+			}
+
+			if (scrollOpEnabled && numHopIters > 0) {
+				scrollingEnd = vScrollbar.clickBottomScrollImage(
+						vScrollbarRegion, numHops);
+				if (scrollingEnd) {
 					rowLocation = isRecordPresent(primaryKey);
-					break; 
+					break;
 				}
 			} else {
 				break;
 			}
-			
+
 			numHopIters--;
-		} while(numHopIters >= 0);
-		
+		} while (numHopIters >= 0);
+
 		return rowLocation;
 	}
 
 	/**
 	 * 
-	 * @param primaryKey record to search.
+	 * @param primaryKey
+	 *            record to search.
 	 * @return null only if record does not exist.
 	 */
 	public RowLocation isRecordPresent(ItemList<SearchCell> primaryKey) {
@@ -240,7 +256,9 @@ public class DataGridValidatorSI {
 									.getImage());
 							Assert.assertNotNull(m);
 						} else {
-							Assert.fail("ValueType '" + gridCell.getValueType().name() + "' is not supported.");
+							Assert.fail("ValueType '"
+									+ gridCell.getValueType().name()
+									+ "' is not supported.");
 						}
 
 					}
@@ -265,6 +283,144 @@ public class DataGridValidatorSI {
 	}
 
 	/**
+	 * It extracts the records from the datagrid only for the visible columns.
+	 * Scrollbar is used to scroll through all the records in the datagrid.
+	 * It will only return the unique records for the columns specified.
+	 * @param numRecords
+	 * @param headerColumns
+	 * @param vScrollbar
+	 * @param vScrollbarRegion
+	 * @param numHops
+	 * @param numHopIters
+	 * @return
+	 */
+	public List<List<String>> extractRecordsForVisibleColumns(int numRecords,
+			ItemList<HeaderColumnSI> headerColumns,
+			VerticalScrollbar vScrollbar, Region vScrollbarRegion, int numHops,
+			int numHopIters) {
+		List<List<String>> records = new LinkedList<List<String>>();
+		boolean scrollingEnd = false;
+
+		boolean scrollOpEnabled = false;
+		if (vScrollbar != null && !vScrollbar.isScrollbarDisabled(vScrollbarRegion)
+				&& vScrollbar.isFullScrollbarVisible(vScrollbarRegion)) {
+			scrollOpEnabled = true;
+		}
+
+		List<List<String>> visibleRecords = null;
+		int prevRecordSize;
+		List<String> row;
+		do {
+			prevRecordSize = records.size();
+
+			visibleRecords = extractVisibleRecordsForVisibleColumns(headerColumns);
+			if (visibleRecords == null || visibleRecords.size() == 0) {
+				break;
+			}
+			for (int i = prevRecordSize; ((numRecords < 0) || (numRecords >= 0 && i < numRecords))
+					&& (i - prevRecordSize) < visibleRecords.size(); i++) {
+				row = visibleRecords.get((i - prevRecordSize));
+				if (!records.toString().equals(row.toString())) {
+					records.add(row);
+				}
+			}
+			if (records.size() >= numRecords) {
+				break;
+			}
+
+			if (scrollOpEnabled && numHopIters > 0) {
+				scrollingEnd = vScrollbar.clickBottomScrollImage(
+						vScrollbarRegion, numHops);
+				if (scrollingEnd) {
+					visibleRecords = extractVisibleRecordsForVisibleColumns(headerColumns);
+					if (visibleRecords == null || visibleRecords.size() == 0) {
+						break;
+					}
+					for (int i = prevRecordSize; ((numRecords < 0) || (numRecords >= 0 && i < numRecords))
+							&& (i - prevRecordSize) < visibleRecords.size(); i++) {
+						records.add(visibleRecords.get((i - prevRecordSize)));
+					}
+					break;
+				}
+			} else {
+				break;
+			}
+
+			numHopIters--;
+		} while (numHopIters >= 0);
+
+		return records;
+	}
+
+	/**
+	 * It extracts the visible records data only for the visible header columns on the screen.
+	 * @param headerColumns
+	 * @return
+	 */
+	public List<List<String>> extractVisibleRecordsForVisibleColumns(
+			ItemList<HeaderColumnSI> headerColumns) {
+		List<List<String>> records = new LinkedList<List<String>>();
+
+		// Find the header column dimensions
+		Map<HeaderColumnSI, Rectangle> headerColsLocations = new LinkedHashMap<HeaderColumnSI, Rectangle>();
+		Rectangle colRect = null;
+		Region headerRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1,
+				dataGridHeaderW, dataGridHeaderH);
+		for (HeaderColumnSI headerColumn : headerColumns.getItems()) {
+			colRect = headerColumn.getValidator(browser, headerRegion)
+					.findElement(0).getRect();
+			headerColsLocations.put(headerColumn, colRect);
+		}
+		
+		String emptyRow = "[";
+		for(int i = 1; i < headerColumns.size(); i++) {
+			emptyRow = emptyRow + ", ";
+		}
+		emptyRow = emptyRow + "]";
+
+		// Get the textValue in record cell.
+		Region cellRegion = null;
+		int lastProcessedRowEndY = new Double(colRect.getY()).intValue()
+				+ new Double(colRect.getHeight()).intValue();
+		Set<Integer> rowMarkers = findRowMarkerY1();
+		List<String> row;
+		String cellText;
+		try {
+			Iterator<Integer> rowMarkersItr = rowMarkers.iterator();
+			for (int i = 0; i < rowMarkers.size(); i++) {
+				int rowMarker = rowMarkersItr.next();
+				try {
+					row = new LinkedList<String>();
+					for (HeaderColumnSI gridCell : headerColumns.getItems()) {
+						colRect = headerColsLocations.get(gridCell);
+						cellRegion = new Region(
+								new Double(colRect.getX()).intValue(),
+								lastProcessedRowEndY, new Double(
+										colRect.getWidth()).intValue(),
+								rowMarker - lastProcessedRowEndY);
+						cellRegion.setAutoWaitTimeout(1);
+						cellText = cellRegion.text();
+						if(cellText == null) { cellText = "";}
+						cellText = cellText.trim();
+						row.add(cellText);
+					}
+					if(!emptyRow.equals(row.toString())) {
+						records.add(row);
+					}
+				} catch (Throwable th) {
+					// do nothing
+				}
+				lastProcessedRowEndY = rowMarker;
+			}
+		} catch (Throwable th) {
+			// Assert.fail("Failed to find Record'"
+			// + primaryKey.getItems() + "' in DataGrid '"
+			// + dataGrid.getDisplayName() + "'", th);
+		}
+		return records;
+	}
+
+	/**
 	 * 
 	 * @param primaryKey
 	 *            it contains columnName and TextValue to match
@@ -274,93 +430,107 @@ public class DataGridValidatorSI {
 				"Failed to find Record'" + primaryKey.getItems()
 						+ "' in DataGrid '" + dataGrid.getDisplayName() + "'");
 	}
-	
+
 	/**
-	 * Cell is identified by header column location in row location. It returns the region of
-	 * the cell. That can be further used to recognize UI objects inside this region.
+	 * Cell is identified by header column location in row location. It returns
+	 * the region of the cell. That can be further used to recognize UI objects
+	 * inside this region.
+	 * 
 	 * @param headerColumn
 	 * @param rowLocation
 	 * @param hScrollbar
-	 * @param scrollStepsToLookup it is the number of clicks to perform to search for the record.
+	 * @param scrollStepsToLookup
+	 *            it is the number of clicks to perform to search for the
+	 *            record.
 	 * @return the cell region
 	 */
-	public Region getCellRegion(HeaderColumnSI headerColumn, RowLocation rowLocation, HorizontalScrollbar hScrollbar, int scrollStepsToLookup) {
+	public Region getCellRegion(HeaderColumnSI headerColumn,
+			RowLocation rowLocation, HorizontalScrollbar hScrollbar,
+			int scrollStepsToLookup) {
 		Region headerRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1,
 				dataGridHeaderW, dataGridHeaderH);
-		
+
 		Rectangle colRect = null;
-		if(hScrollbar == null) {
+		if (hScrollbar == null) {
 			try {
 				colRect = headerColumn.getValidator(browser, headerRegion)
-					.findElement(0).getRect();
-			} catch(Throwable th) {
-				
+						.findElement(0).getRect();
+			} catch (Throwable th) {
+
 			}
 		} else {
-			Region hScrollRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1 + dataGridH - 100, dataGridW, dataGridH);
+			Region hScrollRegion = Region.create(dataGridHeaderX1,
+					dataGridHeaderY1 + dataGridH - 100, dataGridW, dataGridH);
 			hScrollbar.scrollThumbGripToExtremeLeft(hScrollRegion);
-			
+
 			boolean scrollEnded = false;
-			while(!scrollEnded) {
+			while (!scrollEnded) {
 				try {
 					colRect = headerColumn.getValidator(browser, headerRegion)
-						.findElement(0).getRect();
+							.findElement(0).getRect();
 					break;
-				} catch(Throwable th) {
-					scrollEnded = hScrollbar.clickRightScrollImage(hScrollRegion, scrollStepsToLookup);
+				} catch (Throwable th) {
+					scrollEnded = hScrollbar.clickRightScrollImage(
+							hScrollRegion, scrollStepsToLookup);
 				}
 			}
 		}
-		
-		Assert.assertNotNull(colRect, "Failed to find HeaderColumn '" + headerColumn.getDisplayName() 
-				+ "' in DataGrid '" + dataGrid.getDisplayName() + "'." );
-		
+
+		Assert.assertNotNull(colRect,
+				"Failed to find HeaderColumn '" + headerColumn.getDisplayName()
+						+ "' in DataGrid '" + dataGrid.getDisplayName() + "'.");
+
 		Region cellRegion = Region.create(
-				new Double(colRect.getX()).intValue(),
-				rowLocation.getY1(), new Double(
-						colRect.getWidth()).intValue(),
-						rowLocation.getRowHeight());
-		cellRegion.setAutoWaitTimeout(1);		
-		
+				new Double(colRect.getX()).intValue(), rowLocation.getY1(),
+				new Double(colRect.getWidth()).intValue(),
+				rowLocation.getRowHeight());
+		cellRegion.setAutoWaitTimeout(1);
+
 		return cellRegion;
 	}
-	
-	public void validateCellValuePresent(SearchCell cellValue, RowLocation rowLocation, HorizontalScrollbar hScrollbar, int scrollStepsToLookup) {
+
+	public void validateCellValuePresent(SearchCell cellValue,
+			RowLocation rowLocation, HorizontalScrollbar hScrollbar,
+			int scrollStepsToLookup) {
 		Region headerRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1,
 				dataGridHeaderW, dataGridHeaderH);
-		
+
 		Rectangle colRect = null;
-		if(hScrollbar == null) {
+		if (hScrollbar == null) {
 			try {
-				colRect = cellValue.getColumn().getValidator(browser, headerRegion)
-					.findElement(0).getRect();
-			} catch(Throwable th) {
-				
+				colRect = cellValue.getColumn()
+						.getValidator(browser, headerRegion).findElement(0)
+						.getRect();
+			} catch (Throwable th) {
+
 			}
 		} else {
-			Region hScrollRegion = Region.create(dataGridHeaderX1, dataGridHeaderY1 + dataGridH - 100, dataGridW, dataGridH);
+			Region hScrollRegion = Region.create(dataGridHeaderX1,
+					dataGridHeaderY1 + dataGridH - 100, dataGridW, dataGridH);
 			hScrollbar.scrollThumbGripToExtremeLeft(hScrollRegion);
-			
+
 			boolean scrollEnded = false;
-			while(!scrollEnded) {
+			while (!scrollEnded) {
 				try {
-					colRect = cellValue.getColumn().getValidator(browser, headerRegion)
-						.findElement(0).getRect();
+					colRect = cellValue.getColumn()
+							.getValidator(browser, headerRegion).findElement(0)
+							.getRect();
 					break;
-				} catch(Throwable th) {
-					scrollEnded = hScrollbar.clickRightScrollImage(hScrollRegion, scrollStepsToLookup);
+				} catch (Throwable th) {
+					scrollEnded = hScrollbar.clickRightScrollImage(
+							hScrollRegion, scrollStepsToLookup);
 				}
 			}
 		}
-		
-		Assert.assertNotNull(colRect, "Failed to find HeaderColumn '" + cellValue.getColumn().getDisplayName() 
-				+ "' in DataGrid '" + dataGrid.getDisplayName() + "'." );
-		
+
+		Assert.assertNotNull(colRect, "Failed to find HeaderColumn '"
+				+ cellValue.getColumn().getDisplayName() + "' in DataGrid '"
+				+ dataGrid.getDisplayName() + "'.");
+
 		Region cellRegion = Region.create(
-				new Double(colRect.getX()).intValue(),
-				rowLocation.getY1(), new Double(
-						colRect.getWidth()).intValue(),
-						rowLocation.getRowHeight());
+				new Double(colRect.getX()).intValue(), rowLocation.getY1(),
+				new Double(colRect.getWidth()).intValue(),
+				rowLocation.getRowHeight());
 		cellRegion.setAutoWaitTimeout(1);
 
 		String valueToValidate = null;
@@ -371,24 +541,21 @@ public class DataGridValidatorSI {
 				String actualText = cellRegion.text();
 				System.out.println("ColumnName:"
 						+ cellValue.getColumn().getDisplayName()
-						+ ", Expected: " + valueToValidate
-						+ ", Actual: " + actualText);
-				DataMatchUtil.validateTextValue(actualText,
-						valueToValidate,
+						+ ", Expected: " + valueToValidate + ", Actual: "
+						+ actualText);
+				DataMatchUtil.validateTextValue(actualText, valueToValidate,
 						cellValue.getTextValueValidationMechanism());
 			} else if (cellValue.getValueType() == ValueType.imageAsStringPath) {
 				valueToValidate = (String) cellValue.getValue();
 				Match m = cellRegion.find(valueToValidate);
 				Assert.assertNotNull(m);
 			} else if (cellValue.getValueType() == ValueType.imageAsImageObject) {
-				imgObjToValidate = (ImageObject) cellValue
-						.getValue();
-				Match m = cellRegion.find(imgObjToValidate
-						.getImage());
+				imgObjToValidate = (ImageObject) cellValue.getValue();
+				Match m = cellRegion.find(imgObjToValidate.getImage());
 				Assert.assertNotNull(m);
 			}
-		} catch(Throwable th) {
-			Assert.fail("Failed to match cell value '" + cellValue 
+		} catch (Throwable th) {
+			Assert.fail("Failed to match cell value '" + cellValue
 					+ "' in DataGrid '" + dataGrid.getDisplayName() + "'.", th);
 		}
 	}

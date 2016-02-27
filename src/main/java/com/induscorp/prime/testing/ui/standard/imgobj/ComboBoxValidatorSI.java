@@ -31,6 +31,7 @@ import org.testng.Assert;
 
 import com.induscorp.prime.testing.ui.core.commons.ImageSection;
 import com.induscorp.prime.testing.ui.core.commons.ItemList;
+import com.induscorp.prime.testing.ui.core.commons.UIObjectType;
 import com.induscorp.prime.testing.ui.core.config.webbrowser.WebBrowser;
 import com.induscorp.prime.testing.ui.core.objects.ImageObject;
 import com.induscorp.prime.testing.ui.core.objects.NewTextLocation;
@@ -348,7 +349,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 		try {
 			match.click();
-			Match menuItemMatch = pullDownMenuRegion.findBest(itemName);
+			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
+			Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
+			
 			Assert.assertNotNull(menuItemMatch, "Failed to find item '" + itemName + "' in pull down menu of ComboBox '"
 					+ comboBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
@@ -369,7 +372,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 
 		try {
 			match.click();
-			Match menuItemMatch = pullDownMenuRegion.findBest(imageItem);
+			ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
+			Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
 			Assert.assertNotNull(menuItemMatch, "Failed to find item '" + imageItem
 					+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 			menuItemMatch.click();
@@ -422,7 +426,9 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			match.click();
 			for (String itemName : itemsToBeSelected.getItems()) {
 				currentItemName = itemName;
-				Match menuItemMatch = pullDownMenuRegion.find(itemName);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
+				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
+				//Match menuItemMatch = pullDownMenuRegion.find(itemName);
 				Assert.assertNotNull(menuItemMatch, "Failed to find item '" + itemName
 						+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				menuItemMatch.click();
@@ -446,7 +452,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 			match.click();
 			for (String imageItem : imageItemsToBeSelected.getItems()) {
 				currentImageItem = imageItem;
-				Match menuItemMatch = pullDownMenuRegion.find(imageItem);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
+				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
 				Assert.assertNotNull(menuItemMatch, "Failed to find item '" + imageItem
 						+ "' in pull down menu of ComboBox '" + comboBoxObj.getDisplayName() + "'.");
 				menuItemMatch.click();
@@ -471,7 +478,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		try {
 			for (String itemName : items.getItems()) {
 				currentItemName = itemName;
-				Match menuItemMatch = pullDownMenuRegion.find(itemName);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", itemName);
+				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(2);
 				if (menuItemMatch == null) {
 					throw new FindFailed("Found no match.");
 				}
@@ -496,7 +504,8 @@ public class ComboBoxValidatorSI extends ComboBoxValidator {
 		try {
 			for (String imageItem : imageItems.getItems()) {
 				currentImageItem = imageItem;
-				Match menuItemMatch = pullDownMenuRegion.find(imageItem);
+				ImageObject menuItemObj = new ImageObject(UIObjectType.menuItem, comboBoxObj.getDisplayName() + "-MenuItem", imageItem);
+				Match menuItemMatch = menuItemObj.getValidator(browser, pullDownMenuRegion).findElement(5);
 				if (menuItemMatch == null) {
 					throw new FindFailed("Found no match.");
 				}

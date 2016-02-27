@@ -89,6 +89,10 @@ public abstract class AbstractUITestHelper {
 
 	}
 
+	public String getInitAppName() {
+		return initAppName;
+	}
+	
 	public String getInitUserProfileName() {
 		return initUserProfileName;
 	}
