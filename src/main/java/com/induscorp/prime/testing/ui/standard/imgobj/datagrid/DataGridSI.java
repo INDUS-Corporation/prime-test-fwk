@@ -157,48 +157,54 @@ public class DataGridSI {
 		return numLeftFrozenColumns;
 	}
 
-	public void setNumLeftFrozenColumns(int numLeftFrozenColumns) {
+	public DataGridSI setNumLeftFrozenColumns(int numLeftFrozenColumns) {
 		this.numLeftFrozenColumns = numLeftFrozenColumns;
+		return this;
 	}
 
 	public int getNumRightFrozenColumns() {
 		return numRightFrozenColumns;
 	}
 
-	public void setNumRightFrozenColumns(int numRightFrozenColumns) {
+	public DataGridSI setNumRightFrozenColumns(int numRightFrozenColumns) {
 		this.numRightFrozenColumns = numRightFrozenColumns;
+		return this;
 	}
 
 	public VerticalScrollbar getVScrollbar() {
 		return vScrollbar;
 	}
 
-	public void setVScrollbar(VerticalScrollbar vScrollbar) {
+	public DataGridSI setVScrollbar(VerticalScrollbar vScrollbar) {
 		this.vScrollbar = vScrollbar;
+		return this;
 	}
 
 	public HorizontalScrollbar getHScrollbar() {
 		return hScrollbar;
 	}
 
-	public void setHScrollbar(HorizontalScrollbar hScrollbar) {
+	public DataGridSI setHScrollbar(HorizontalScrollbar hScrollbar) {
 		this.hScrollbar = hScrollbar;
+		return this;
 	}
 
 	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public DataGridSI setWidth(int width) {
 		this.width = width;
+		return this;
 	}
 
 	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public DataGridSI setHeight(int height) {
 		this.height = height;
+		return this;
 	}
 
 	public DataGridValidatorSI getValidator(WebBrowser browser, Region region) {

@@ -206,6 +206,7 @@ public class ObjectLocation {
 		int refObjXDistanceFromM1;
 		int refObjXDistanceFromM2;
 		int objectRangeFromRefObject;
+		int nearestRightSideMatchX2;
 		int leftObjX2;
 		Match nearestLeftSideMatch;
 		Match nearestRightSideMatch;
@@ -265,9 +266,9 @@ public class ObjectLocation {
 			nearestRightSideMatch = null;
 			for (Match m1 : rightSideImgMatches) {
 				int m1Y2 = m1.getY() + m1.getH();
-				if ((refObjCenterY >= m1.getY() && refObjCenterY <= m1Y2) && (refObjX2 >= m1.getX())
-						&& (refObjX2 - m1.getX()) < refObjXDistanceFromM1) {
-					refObjXDistanceFromM1 = refObjX2 - m1.getX();
+				if ((refObjCenterY >= m1.getY() && refObjCenterY <= m1Y2) && (refObjX1 >= m1.getX())
+						&& (refObjX1 - m1.getX()) < refObjXDistanceFromM1) {
+					refObjXDistanceFromM1 = refObjX1 - m1.getX();
 					nearestRightSideMatch = m1;
 				}
 			}
@@ -277,7 +278,8 @@ public class ObjectLocation {
 							+ "' relative to refernce object '" + refObject.getDisplayName() + "'.");
 
 			objectRangeFromRefObject = refObjX1 - refObjectDistanceInPx;
-			Assert.assertTrue(nearestRightSideMatch.getX() >= objectRangeFromRefObject,
+			nearestRightSideMatchX2 = nearestRightSideMatch.getX() + nearestRightSideMatch.getW();
+			Assert.assertTrue(nearestRightSideMatchX2 >= objectRangeFromRefObject,
 					"Failed to find object within the horizontal range (" + refObjX1 + ", " + objectRangeFromRefObject
 							+ "). Probably you can increase refObjectDistanceInPx (" + refObjectDistanceInPx
 							+ ") parameter value.");
@@ -287,9 +289,9 @@ public class ObjectLocation {
 			nearestLeftSideMatch = null;
 			for (Match m2 : leftSideImgMatches) {
 				int m2Y2 = m2.getY() + m2.getH();
-				if ((refObjCenterY >= m2.getY() && refObjCenterY <= m2Y2) && (nearestRightSideMatch.getX() >= m2.getX())
-						&& (nearestRightSideMatch.getX() - m2.getX()) < refObjXDistanceFromM2
-						&& (m2.getX() > (nearestLeftSideMatch.getX() + nearestLeftSideMatch.getW()))) {
+				if ((refObjCenterY >= m2.getY() && refObjCenterY <= m2Y2) && (nearestRightSideMatchX2 >= m2.getX())
+						&& (nearestRightSideMatchX2 - m2.getX()) < refObjXDistanceFromM2
+						&& (nearestRightSideMatchX2 > (m2.getX() + m2.getW()))) {
 					refObjXDistanceFromM2 = nearestRightSideMatch.getX() - m2.getX();
 					nearestLeftSideMatch = m2;
 				}
