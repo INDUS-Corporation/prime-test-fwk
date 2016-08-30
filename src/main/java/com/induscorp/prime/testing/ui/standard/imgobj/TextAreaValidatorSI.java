@@ -307,9 +307,10 @@ public class TextAreaValidatorSI extends TextAreaValidator {
 			return match.getText();
 		} else {
 			match.click();
-
-			match.type("a", KeyModifier.CTRL);
-			match.type("c", KeyModifier.CTRL);
+			
+			ClipboardUtil.clearContents();
+			
+			match.type("ac", KeyModifier.CTRL);
 
 			String contents = ClipboardUtil.getContents();
 			ClipboardUtil.clearContents();

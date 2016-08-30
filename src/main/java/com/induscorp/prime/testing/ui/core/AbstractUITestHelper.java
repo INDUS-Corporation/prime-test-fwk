@@ -217,7 +217,11 @@ public abstract class AbstractUITestHelper {
 	}
 	
 	public void captureScreenshot(Scenario scenario) {		
-		String fileNameHint = scenario.getName().substring(0, 40).replace(" ", "_") + "-" + scenario.getStatus();
+		int endIndex = 40;
+		if(scenario.getName().length() < 40) {
+			endIndex = scenario.getName().length();
+		}
+		String fileNameHint = scenario.getName().substring(0, endIndex).replace(" ", "_") + "-" + scenario.getStatus();
 		
 		Rectangle screenArea = null;
 		if(initWebBrowser != null) {

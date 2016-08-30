@@ -310,6 +310,7 @@ public class TextBoxValidatorSI extends TextBoxValidator {
 		} else {
 			match.click();
 
+			ClipboardUtil.clearContents();
 			match.type("ac", KeyModifier.CTRL);
 
 			String contents = ClipboardUtil.getContents();
