@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.induscorp.prime.testing</groupId>
 	<artifactId>prime-test-fwk</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>2.1.0-Final</version>
 	<packaging>jar</packaging>
 	<name>Prime Testing Automation Framework</name>
 
@@ -11,7 +11,7 @@
 		<testng.version>6.9.10</testng.version>
 		<selenium.version>2.50.1</selenium.version>		
 		<cucumber.version>1.2.4</cucumber.version>
-		<sikulix.version>1.1.0</sikulix.version>
+		<sikulix.version>1.1.1-SNAPSHOT</sikulix.version>
 		<slf4j.version>1.7.14</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<hibernate.version>5.0.7.Final</hibernate.version>
