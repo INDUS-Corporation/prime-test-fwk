@@ -266,7 +266,7 @@ public class LabelValidatorSI extends LabelValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

@@ -253,7 +253,7 @@ public class RadioButtonValidatorSI extends RadioButtonValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

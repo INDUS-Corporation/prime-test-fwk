@@ -252,7 +252,7 @@ public class ImageValidatorSI extends ImageValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

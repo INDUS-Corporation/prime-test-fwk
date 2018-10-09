@@ -251,7 +251,7 @@ public class CheckBoxValidatorSI extends CheckBoxValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

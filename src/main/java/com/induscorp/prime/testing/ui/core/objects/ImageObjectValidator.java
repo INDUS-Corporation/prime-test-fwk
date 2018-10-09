@@ -197,7 +197,7 @@ public class ImageObjectValidator extends UIObjectValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

@@ -283,7 +283,7 @@ public class ListBoxValidatorSI extends ListBoxValidator {
 		case bottomRight:
 			return imageMatch.getBottomRight();
 		case center:
-			return imageMatch.checkMatch();
+			return imageMatch.getCenter();
 		}
 		return null;
 	}

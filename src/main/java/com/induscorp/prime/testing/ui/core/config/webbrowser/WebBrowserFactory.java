@@ -15,6 +15,7 @@ import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -129,12 +130,15 @@ public class WebBrowserFactory {
 						}
 					}
 
+					FirefoxOptions options = new FirefoxOptions()
+						    .setProfile(firefoxProfile).setBinary(new FirefoxBinary());
+					
 					Proxy proxy = getProxyInfo(appConfig);
 					if (proxy != null) {
-						dc.setCapability(CapabilityType.PROXY, proxy);
+						options.setCapability(CapabilityType.PROXY, proxy);
 					}
 
-					firefoxDriver = new FirefoxDriver(new FirefoxBinary(), firefoxProfile, dc);
+					firefoxDriver = new FirefoxDriver(options);
 
 					browser = new WebBrowser(browserId, appName, appConfig, testConfigMgr, this, firefoxDriver, type);
 
